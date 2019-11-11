@@ -13,6 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - Explination of Game, Set, Match 
 
+- How likely are the players to win the torunament? 
+
 ### Methods
 
 - Where we got our data
@@ -21,4 +23,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Reproducability 
 
+- Reproduce data in paper 
+
 ### Extension 
+
+- Same thing with new tournament 
+
+- Maybe with new method if we have time 
+
+### Bibliography 
