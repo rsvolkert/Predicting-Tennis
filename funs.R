@@ -24,7 +24,7 @@ pASij <- function(i, j, pAG, pBG){ #i , j , prob a wins given a served, prob b w
   if(j < 0){return(0)}
   for( a in 1:i){ 
     for( b in j:6){
-      if(mod((i+j-1), 1) == 1) {
+      if(mod((i+j-1), 2) == 1) {
         if(j == 6 & i <= 5){
           return(pASij(i, j-1, pAG, pBG)*(1-pAG))
         }
