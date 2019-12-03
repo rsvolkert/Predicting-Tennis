@@ -51,6 +51,7 @@ pASij <- function(i, j, pAG, pBG){ #i , j , prob a wins given a served, prob b w
   
 }
 #Prob A wins a set given a served 
-ps <- pASij(7,5, pag, pbg) + pASij(6,6,pag, pbg) + sapply(0:4, pASij, i=6, pAG=pag, pBG=pbg )
+ps <- pASij(7,5, pag, pbg) + pAT(6,6,pag, pbg) + sapply(0:4, pASij, i=6, pAG=pag, pBG=pbg )
 #where pag is prob A wins a game given A served and 
 #pbg is prob B wins a game given B served
+#still need to write pAT
