@@ -17,8 +17,8 @@ pg <- function(pr) {
 }
 
 
-#Prob A wins a set given A served
-pASij <- function(i, j, pAG, pBG){
+#equation 6-8
+pASij <- function(i, j, pAG, pBG){ #i , j , prob a wins given a served, prob b wins given b served
   if(i == 0 & j == 1){return(1)}
   if(i < 0){return(0)}
   if(j < 0){return(0)}
@@ -50,4 +50,7 @@ pASij <- function(i, j, pAG, pBG){
   }
   
 }
-
+#Prob A wins a set given a served 
+ps <- pASij(7,5, pag, pbg) + pASij(6,6,pag, pbg) + sapply(0:4, pASij, i=6, pAG=pag, pBG=pbg )
+#where pag is prob A wins a game given A served and 
+#pbg is prob B wins a game given B served
