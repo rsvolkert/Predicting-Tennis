@@ -55,3 +55,14 @@ ps <- pASij(7,5, pag, pbg) + pAT(6,6,pag, pbg) + sapply(0:4, pASij, i=6, pAG=pag
 #where pag is prob A wins a game given A served and 
 #pbg is prob B wins a game given B served
 #still need to write pAT
+
+
+## The probability of winning two out of three sets, resulting in winning a match
+pM=function(ps_a, ps_b,num_set){
+  if (num_sets==2){
+    (ps_a)^2+2*(ps_a)^2*ps_b
+  }
+  if(num_sets==3){
+    (ps_a)^3+3*(ps_a)^3*ps_b+6*ps_a^3*ps_b^2
+  }
+}
