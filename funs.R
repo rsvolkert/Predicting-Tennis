@@ -19,7 +19,7 @@ pg <- function(pr) {
 
 #equation 6-8
 pASij <- function(i, j, pAG, pBG){ #i , j , prob a wins given a served, prob b wins given b served
-  if(i == 0 & j == 1){return(1)}
+  if(i == 0 & j == 0){return(1)}
   if(i < 0){return(0)}
   if(j < 0){return(0)}
   for( a in 1:i){ 
@@ -50,8 +50,49 @@ pASij <- function(i, j, pAG, pBG){ #i , j , prob a wins given a served, prob b w
   }
   
 }
+
+
+
+pATij <- function(i, j, pAR, pBR){ #i , j , prob a wins given a served, prob b wins given b served
+  if(i == 0 & j == 0){return(1)}
+  if(i < 0){return(0)}
+  if(j < 0){return(0)}
+  for( a in 0:i){ 
+    for( b in j:7){
+      MO <- mod(i+j-1, 4)
+      if(MO == 0 | MO == 3) {
+        if(j == 7 & i <= 6){
+          return(pATij(i-1, j, pAR, pBR)*(pAR))
+        }
+        else if( i == 7 & j <= 6){
+          return(pATij(i, j-1, pAR, pBR)*(1-pAR))
+        }
+        else{
+          return(pATij(i-1, j, pAR, pBR)*pAR + pATij(i, j-1, pAR, pBR)*(1-pAR))
+        }
+      }
+      else{
+        if(j == 7 & i <= 6){
+          return(pATij(i-1, j, pAR, pBR)*(1-pBR))
+        }
+        else if( i == 7 & j <= 6){
+          return(pATij(i, j-1, pAR, pBR)*(pBR))
+        }
+        else{
+          return(pATij(i-1, j, pAR, pBR)*(1-pBR) + pATij(i, j-1, pAR, pBR)*(pBR))
+        }
+      }
+    }
+  }
+  
+}
+
+
+
+
+
 #Prob A wins a set given a served 
-ps <- pASij(7,5, pag, pbg) + pAT(6,6,pag, pbg) + sapply(0:4, pASij, i=6, pAG=pag, pBG=pbg )
+ps <- pASij(7,5, pag, pbg) + pATij(6,6,pag, pbg) + sum(sapply(0:4, pASij, i=6, pAG=pag, pBG=pbg ))
 #where pag is prob A wins a game given A served and 
 #pbg is prob B wins a game given B served
 #still need to write pAT
