@@ -110,7 +110,7 @@ pM <- function(ps_a, ps_b,num_set){
     ret<- (ps_a)^2+2*(ps_a)^2*(1-ps_b)
   }
   if(num_set==3){
-    ret <- (ps_a)^3+3*(ps_a)^3*ps_b+6*ps_a^3*(1-ps_b)^2
+    ret <- (ps_a)^3+3*(ps_a)^3*(1-ps_b)+6*ps_a^3*(1-ps_b)^2
   }
   
   if(ret>1){return(1)}
@@ -140,3 +140,20 @@ pTC <- function(ps_1, ps_2, ps_3, ps_4, numset) {
     p34 * (p31*p12 + p32*p21),
     p43 * (p41*p12 + p42*p21))
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
