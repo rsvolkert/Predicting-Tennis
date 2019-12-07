@@ -107,7 +107,7 @@ ps <- function(pag, pbg){
 
 
 ## The probability of winning two out of three sets, resulting in winning a match
-pM=function(ps_a, ps_b,num_set){
+pM <- function(ps_a, ps_b,num_set){
   if (num_sets==2){
     (ps_a)^2+2*(ps_a)^2*ps_b
   }
