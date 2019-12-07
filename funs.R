@@ -103,15 +103,40 @@ ps <- function(pag, pbg){
 
 #where pag is prob A wins a game given A served and 
 #pbg is prob B wins a game given B served
-#still need to write pAT
-
 
 ## The probability of winning two out of three sets, resulting in winning a match
 pM <- function(ps_a, ps_b,num_set){
-  if (num_sets==2){
-    (ps_a)^2+2*(ps_a)^2*ps_b
+  if (num_set==2){
+    ret<- (ps_a)^2+2*(ps_a)^2*(1-ps_b)
   }
-  if(num_sets==3){
-    (ps_a)^3+3*(ps_a)^3*ps_b+6*ps_a^3*ps_b^2
+  if(num_set==3){
+    ret <- (ps_a)^3+3*(ps_a)^3*ps_b+6*ps_a^3*(1-ps_b)^2
   }
+  
+  if(ret>1){return(1)}
+  return(ret)
+}
+
+# Probability of winning a tournament
+pTC <- function(ps_1, ps_2, ps_3, ps_4, numset) {
+  p12 <- pM(ps_1, ps_2, numset)
+  p13 <- pM(ps_1, ps_3, numset)
+  p14 <- pM(ps_1, ps_4, numset)
+  
+  p21 <- 1 - p12
+  p23 <- pM(ps_2, ps_3, numset)
+  p24 <- pM(ps_2, ps_4, numset)
+  
+  p31 <- 1 - p13
+  p32 <- 1 - p23
+  p34 <- pM(ps_3, ps_4, numset)
+  
+  p41 <- 1 - p14
+  p42 <- 1 - p24
+  p43 <- 1 - p34
+  
+  c(p12 * (p13*p34 + p14*p43),
+    p21 * (p23*p34 + p24*p43),
+    p34 * (p31*p12 + p32*p21),
+    p43 * (p41*p12 + p42*p21))
 }
