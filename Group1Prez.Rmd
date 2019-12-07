@@ -11,32 +11,48 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## The Game of Tennis 
 
+- Point: Smallest unit of measurement (Love-15-30-40-game)
+
+- Game: A game is one when a player reaches 4 points with at least a 2 point advantage 
+
+- Set: A set consists of 6 games and is won by the player who reaches 6 games first 
+
+- Advantage Set: If a game score of 6-6 is reached and advantage set rules are used, a player can only win a set with a 2 game lead
+
+- Matches: Best of 3 set (for women) or 5 sets (for men)
+
+- Tie-break game: If a game score of 6-6 is reached and tie-break set rules are used. In a tie-break game, a player/team must reach 7 points with a two point advantage to win
 
 
 
 
+## Values
+
+Things we need to know:
+
+- Empirical probability of winning a rally on serve 
+
+- Empirical probability of winning a game on serve  \pause
 
 
-Points – Smallest unit of measurement. Points increment from Love(0)-15-30-40-game.
-Games – Games consist of 4 points each, and is won when a player reaches 4 points with at least a 2 point advantage.
-Sets – A set consists of 6 games and is won by the player/team who reaches 6 games first with least a 2 point lead.
-Advantage Set – If a game score of 6-6 is reached and advantage set rules are used, a player/team can only win a set with a 2 game lead.
-Matches – A match is usually played as best of 3 or best of 5 sets.
-Deuce – Occurs if a score of 40-40 is reached. In order to win the game, a player/team must win 2 consecutive points in order to take the game. If a player wins one point, they have advantage, but if they lose the next point, the score returns to deuce.
-Tie-break game – If a game score of 6-6 is reached and tie-break set rules are used, players must play a tie-break game in order to decide who wins the set. In a tie-break game, a player/team must reach 7 points with a two point advantage to win. For the serving format of a tie-break game, player 1 serves for the first point, player 2 serves for the next two points, player 1 serves for the next two points after that, etc.
+Things we need to calculate: 
 
+- Theoretical probability of winning a game on serve
 
+- Theoretical probability of winning a set
 
-## Slide with Bullets
+- Theoretical probability of winning a match
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+- Theoretical probability of winning the tie-breaker 
 
 ## Slide with R Output
 
-```{r cars, echo = TRUE}
-summary(cars)
+```{r, echo = TRUE}
+
+
+
+
+
 ```
 
 ## Slide with Plot

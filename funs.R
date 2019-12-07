@@ -13,7 +13,7 @@ pr <- function(pwon, pserve) {
 pg <- function(pr) {
   qr <- 1 - pr
   
-  pr^4 * (1 + 4*qr + 10*qr^2) + 10*(pr*qr)^3 * pr^2 * (1 - 2*p2*qr)^-1
+  pr^4 * (1 + 4*qr + 10*qr^2) + 20*(pr*qr)^3 * pr^2 * (1 - 2*pr*qr)^-1
 }
 
 
