@@ -3,12 +3,29 @@ title: "Group 1: Tennis "
 author: "Olivia Beck, Emma Wilson, Ryan Volkert"
 date: "December 12, 2019"
 output: beamer_presentation
+header-includes: 
+  - \usepackage{booktabs} 
+  - \usepackage{longtable} 
+  - \usepackage{array} 
+  - \usepackage{multirow} 
+  - \usepackage{wrapfig} 
+  - \usepackage{float} 
+  - \usepackage{colortbl} 
+  - \usepackage{pdflscape} 
+  - \usepackage{tabu} 
+  - \usepackage{threeparttable} 
+  - \usepackage{threeparttablex} 
+  - \usepackage[normalem]{ulem} 
+  - \usepackage{makecell} 
+  - \usepackage{xcolor}
+
 ---
 
 ```{r setup, include=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 source("funs.R")
 library(knitr)
+options(kableExtra.latex.load_packages = FALSE) 
 library(kableExtra)
 library(tidyverse)
 set.seed(400)
