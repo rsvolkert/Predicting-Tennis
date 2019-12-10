@@ -111,11 +111,7 @@ pM <- function(ps_a, ps_b, num_set){
     ret <- (ps_a)^2 + 2*(ps_a)^2 * ps_b
   }
   if(num_set==3){
-<<<<<<< HEAD
     ret <- (ps_a)^3 + 3*(ps_a)^3 * ps_b + 6*ps_a^3 * (ps_b)^2
-=======
-    ret <- (ps_a)^3+3*(ps_a)^3*(1-ps_b)+6*ps_a^3*(1-ps_b)^2
->>>>>>> 5546f7c00b32d3cbe619a7ab20e6aaab4278c373
   }
   
   if(ret>1) return(1)
@@ -162,8 +158,6 @@ pTC <- function(pr_1, pr_2, pr_3, pr_4, numset) {
   p42 <- 1 - p24
   p43 <- 1 - p34
   
-<<<<<<< HEAD
-  
   p14 <- 1 - p41
   p13 <- 1 - p31
   p12 <- 1 - p21
@@ -174,12 +168,6 @@ pTC <- function(pr_1, pr_2, pr_3, pr_4, numset) {
              p34 * (p31*p12 + p32*p21),
              p43 * (p41*p12 + p42*p21)))
 }
-=======
-  c(p12 * (p13*p34 + p14*p43),
-    p21 * (p23*p34 + p24*p43),
-    p34 * (p31*p12 + p32*p21),
-    p43 * (p41*p12 + p42*p21))
-}
 
 
 
@@ -197,4 +185,3 @@ pTC <- function(pr_1, pr_2, pr_3, pr_4, numset) {
 
 
 
->>>>>>> 5546f7c00b32d3cbe619a7ab20e6aaab4278c373
