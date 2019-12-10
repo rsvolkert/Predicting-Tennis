@@ -26,33 +26,23 @@ pASij <- function(i, j, pAG, pBG) { #i , j , prob a wins given a served, prob b 
   if(j < 0) return(0)
   
   
-  # for( i in i:0) {
-  #   
-  #   for( j in j:6) {
-      
-      # even i-1 + j
-      if(mod((i-1+j), 2) == 0) {
+  if(mod((i-1+j), 2) == 0) {
         
-        if(j == 6 & i <= 5) return( pASij(i, j-1, pAG, pBG)*(1-pAG) )
+    if(j == 6 & i <= 5) return( pASij(i, j-1, pAG, pBG)*(1-pAG) )
         
-        else if( i == 6 & j <= 5) return( pASij(i-1, j, pAG, pBG)*pAG )
+    else if( i == 6 & j <= 5) return( pASij(i-1, j, pAG, pBG)*pAG )
     
-        return( pASij(i-1, j, pAG, pBG)*pAG + pASij(i, j-1, pAG, pBG)*(1-pAG))
+    return( pASij(i-1, j, pAG, pBG)*pAG + pASij(i, j-1, pAG, pBG)*(1-pAG))
         
-      }
-      # odd i-1 + j
-      else {
+  } else {
         
-        if(j == 6 & i <= 5) return( pASij(i, j-1, pAG, pBG)*pBG )
+    if(j == 6 & i <= 5) return( pASij(i, j-1, pAG, pBG)*pBG )
         
-        else if( i == 6 & j <= 5) return( pASij(i-1, j, pAG, pBG)*(1-pBG) )
+    else if( i == 6 & j <= 5) return( pASij(i-1, j, pAG, pBG)*(1-pBG) )
         
-        return( pASij(i-1, j, pAG, pBG)*(1-pBG) + pASij(i, j-1, pAG, pBG)*pBG )
+    return( pASij(i-1, j, pAG, pBG)*(1-pBG) + pASij(i, j-1, pAG, pBG)*pBG )
         
-      }
-  #   }
-  # }
-  
+  }
 }
 
 
@@ -62,34 +52,26 @@ pATij <- function(i, j, pAR, pBR) { #i , j , prob a wins given a served, prob b 
   if(i == 0 & j == 0) return(1)
   if(i < 0) return(0)
   if(j < 0) return(0)
-  
-  
-  # for( i in i:0) { 
-  #   
-  #   for( j in j:7) {
       
-      MO <- mod(i+j-1, 4)
+  MO <- mod(i+j-1, 4)
       
-      if(MO == 0 | MO == 3) {
+  if(MO == 0 | MO == 3) {
         
-        if(j == 7 & i <= 6) return( pATij(i-1, j, pAR, pBR)*(pAR) )
+    if(j == 7 & i <= 6) return( pATij(i-1, j, pAR, pBR)*(pAR) )
         
-        else if( i == 7 & j <= 6) return( pATij(i, j-1, pAR, pBR)*(1-pAR) )
+    else if( i == 7 & j <= 6) return( pATij(i, j-1, pAR, pBR)*(1-pAR) )
         
-        return(pATij(i-1, j, pAR, pBR)*pAR + pATij(i, j-1, pAR, pBR)*(1-pAR))
+    return(pATij(i-1, j, pAR, pBR)*pAR + pATij(i, j-1, pAR, pBR)*(1-pAR))
         
-      } else {
+  } else {
         
-        if(i == 7 & j <= 6) return( pATij(i-1, j, pAR, pBR)*(1-pBR) )
+    if(i == 7 & j <= 6) return( pATij(i-1, j, pAR, pBR)*(1-pBR) )
         
-        else if( j == 7 & i <= 6) return( pATij(i, j-1, pAR, pBR)*pBR )
+    else if( j == 7 & i <= 6) return( pATij(i, j-1, pAR, pBR)*pBR )
         
-        return(pATij(i-1, j, pAR, pBR)*(1-pBR) + pATij(i, j-1, pAR, pBR)*(pBR))
+    return(pATij(i-1, j, pAR, pBR)*(1-pBR) + pATij(i, j-1, pAR, pBR)*(pBR))
         
-      }
-  #   }
-  # }
-  
+  }
 }
 
 pT <- function(pAR, pBR) {
@@ -127,37 +109,14 @@ pM <- function(pAR, pBR, num_set){
     ret <- (ps_a)^3 + 3*(ps_a)^3 * ps_b + 6*ps_a^3 * (ps_b)^2
   }
   
-  # if(ret>1) return(1)
   return(ret)
 }
 
 # Probability of winning a tournament
 pTC <- function(pr_1, pr_2, pr_3, pr_4, numset) {
-  tourney <- data.frame(Player = 1:4,
-                       pRally = c(pr_1,
-                                  pr_2,
-                                  pr_3,
-                                  pr_4),
-                       pGame = NA,
-                       pTourney = NA) %>%
-    mutate(pGame = pg(pRally))
+  pRally <- c(pr_1, pr_2, pr_3, pr_4)
   
-  pSet <- matrix(NA, nrow=4, ncol=4)
   
-  for(i in 1:4) {
-    for(j in 1:4) {
-      if(i==j) pSet[i,j] <- 0
-      else pSet[i,j] <- ps(tourney$pGame[i], tourney$pGame[j])
-    }
-  }
-  
-  semi <- matrix(NA, nrow=4, ncol=4)
-  
-  for(i in 1:4) {
-    for(j in 1:4) {
-      semi[i,j] <- pM(pSet[j,i], pSet[i,j], numset)
-    }
-  }
   
   p21 <- pM(pSet[2,1], pSet[1,2], numset)
   p23 <- pM(pSet[2,3], pSet[3,2], numset)
