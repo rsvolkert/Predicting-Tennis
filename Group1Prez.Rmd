@@ -3,10 +3,32 @@ title: "Group 1: Tennis "
 author: "Olivia Beck, Emma Wilson, Ryan Volkert"
 date: "December 12, 2019"
 output: beamer_presentation
+header-includes: 
+  - \usepackage{booktabs} 
+  - \usepackage{longtable} 
+  - \usepackage{array} 
+  - \usepackage{multirow} 
+  - \usepackage{wrapfig} 
+  - \usepackage{float} 
+  - \usepackage{colortbl} 
+  - \usepackage{pdflscape} 
+  - \usepackage{tabu} 
+  - \usepackage{threeparttable} 
+  - \usepackage{threeparttablex} 
+  - \usepackage[normalem]{ulem} 
+  - \usepackage{makecell} 
+  - \usepackage{xcolor}
+
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+source("funs.R")
+library(knitr)
+options(kableExtra.latex.load_packages = FALSE) 
+library(kableExtra)
+library(tidyverse)
+set.seed(400)
 ```
 
 ## The Game of Tennis 
@@ -41,23 +63,131 @@ Things we need to calculate:
 
 - Theoretical probability of winning a set
 
-- Theoretical probability of winning a match
-
 - Theoretical probability of winning the tie-breaker 
 
-## Slide with R Output
-
-```{r, echo = TRUE}
+- Theoretical probability of winning a match
 
 
 
+## Theoretical Probabilities: Rally and Game
 
+
+$$\text{P(A Winning a Rally | A Served)} = p_A^R = \frac{\text{Points Won On Serve}}{\text{Points Served}}$$ \pause
+
+
+
+$$\text{P(A Winning a Game | A Served)}$$
+$$=p_A^G = (p_A^R)^4[1+4q_A^R+10(q_A^R)^2] +20(p_A^Rq_A^R)^3(p_A^R)^2[1-2p_A^Rq_A^R]^{-1}$$ 
+
+
+
+## Theoretical Probabilities: Set
+
+
+
+$$ \text{P(A Winnning a Set | A Served)} $$
+$$= p_A^S =\sum_{j=0}^4p_A^S(6,j) + p_A^S(7,5) + p_A^S(6,6)p_A^T$$ \pause
+
+Where, $p_A^S(i,j)$ is defined recursivly as: 
+
+$p_A^S(0,0) = 1$, $p_A^S(i,j) = 0$ if i<0 or j<0. 
+
+- if i+j -1 is even: $p_A^S(i,j) = p_A^S(i-1,j)p_A^G + p_A^S(i, j-1)q_A^G$
+
+    - omit i-1 term if j=6 and i<6
+
+    - omit j-1 term if i=6 and j<6
+
+
+- if i+j -1 is odd: $p_A^S(i,j) = p_A^S(i-1,j)q_B^G + p_A^S(i, j-1)p_B^G$
+
+    - omit i-1 term if j=6 and i<6
+
+    - omit j-1 term if i=6 and j<6
+
+
+## Theoretical Probabilities: Tie Breaker
+
+
+$$\text{P(A Winning the Tie Breaker | A Served Initially)} $$
+$$=p_A^T = \sum_{j=0}^5p_A^T(7,j) +  p_A^T(6,6)\sum_{n=1}^{\infty} p_A^T(n+2, n) $$ \pause
+
+Where,  $p_A^T(i,j)$ is defined recursivly as: 
+
+$p_A^T(0,0) = 1$, $p_A^T(i,j) = 0$ if i<0 or j<0. 
+
+- if $i+j -1 \mod 4 \equiv 0 \; \text{or} \;3$: $p_A^S(i,j) = p_A^T(i-1,j)p_A^R + p_A^T(i, j-1)q_A^R$
+
+    - omit i-1 term if j=7 and i<7
+
+    - omit j-1 term if i=7 and j<7
+
+
+- if $i+j -1 \mod 4 \equiv 1 \; \text{or} \; 2$: $p_A^T(i,j) = p_A^T(i-1,j)q_B^R + p_A^T(i, j-1)p_B^R$
+
+    - omit i-1 term if j=7 and i<7
+
+    - omit j-1 term if i=7 and j<7
+
+
+## Theoretical Probabilities: Match 
+
+Women's (Best of 3):
+$$\text{P(A Winning the Match | A Served First)}$$
+$$=p_A^M = (p_A^S)^2 + 2(p_A^S)^2p_B^S$$ \pause
+
+
+Men's (Best of 5):
+$$\text{P(A Winning the Match | A Served First)}$$ 
+$$=p_A^M = (p_A^S)^3 + 3(p_A^S)^3p_B^S + 6(p_A^S)^3(p_B^S)^2$$
+
+
+
+## Results of Game 
+```{r, echo = FALSE}
+
+TDWomen <- as.data.frame(matrix(0, nrow = 4, ncol = 3))
+
+colnames(TDWomen) <- c("P(Win a Rally)", "Empirical P(Win a Game)", "Paper P(Win a Game)" )
+
+TDWomen[1, ] <- c(0.69, 0.71, 0.89)
+TDWomen[2, ] <- c(0.63, 0.80, 0.79)
+TDWomen[3, ] <- c(0.65, 0.85, 0.83)
+TDWomen[4, ] <- c(0.63, 0.77, 0.79)
+
+OurDatWomen <- as.matrix(round(c(pg(TDWomen[1,1]), pg(TDWomen[2,1]), pg(TDWomen[3,1]), pg(TDWomen[4,1])),2))
+
+TDWomen$`Our P(Win a Game)` <-(OurDatWomen)
+
+rownames(TDWomen) <- c("S. Williams", "V. Williams", "L. Davenport", "A. Mauresmo")
+
+kable(TDWomen, format = "latex", booktabs = TRUE, caption = "Data for the Womens Semifinalists in the 2002 U.S. Open Tournament
+")%>%
+          kable_styling(latex_options = "scale_down")
 
 ```
 
-## Slide with Plot
+```{r, echo = FALSE}
 
-```{r pressure}
-plot(pressure)
+TDMen<- as.data.frame(matrix(0, nrow = 4, ncol = 3))
+
+colnames(TDMen) <- c("P(Win a Rally)", "Empirical P(Win a Game)", "Paper P(Win a Game)" )
+
+TDMen[1, ] <- c(0.73, 0.95, 0.93)
+TDMen[2, ] <- c(0.66, 0.87, 0.85)
+TDMen[3, ] <- c(0.67, 0.85, 0.86)
+TDMen[4, ] <- c(0.68, 0.90, 0.88)
+
+OurDatWMen <- as.matrix(round(c(pg(TDMen[1,1]), pg(TDMen[2,1]), pg(TDMen[3,1]), pg(TDMen[4,1])),2))
+
+TDMen$`Our P(Win a Game)` <-(OurDatWMen)
+
+rownames(TDMen) <- c("P. Sampras", "A. Agassi", "L. Hewitt", "S. Schalken")
+
+kable(TDMen, format = "latex", booktabs = TRUE, caption = "Data for the Mens Semifinalists in the 2002 U.S. Open Tournament
+")%>%
+          kable_styling(latex_options = "scale_down")
+
 ```
+
 
