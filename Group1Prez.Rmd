@@ -1,6 +1,6 @@
 ---
 title: "Group 1: Tennis "
-author: "Olivia Beck, Emma Wilson, Ryan Volkert"
+author: "Olivia Beck, Emma Lewis, Ryan Volkert"
 date: "December 12, 2019"
 output: beamer_presentation
 header-includes: 
