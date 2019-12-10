@@ -26,32 +26,32 @@ pASij <- function(i, j, pAG, pBG) { #i , j , prob a wins given a served, prob b 
   if(j < 0) return(0)
   
   
-  for( a in i:0) {
-    
-    for( b in j:6) {
+  # for( i in i:0) {
+  #   
+  #   for( j in j:6) {
       
       # even i-1 + j
-      if(mod((a-1+b), 2) == 0) {
+      if(mod((i-1+j), 2) == 0) {
         
-        if(a == 6 & b <= 5) return( pASij(a, b-1, pAG, pBG)*(1-pAG) )
+        if(j == 6 & i <= 5) return( pASij(i, j-1, pAG, pBG)*(1-pAG) )
         
-        else if( a == 6 & b <= 5) return( pASij(a-1, b, pAG, pBG)*pAG )
+        else if( i == 6 & j <= 5) return( pASij(i-1, j, pAG, pBG)*pAG )
     
-        return( pASij(a-1, b, pAG, pBG)*pAG + pASij(a, b-1, pAG, pBG)*(1-pAG))
+        return( pASij(i-1, j, pAG, pBG)*pAG + pASij(i, j-1, pAG, pBG)*(1-pAG))
         
       }
       # odd i-1 + j
       else {
         
-        if(b == 6 & a <= 5) return( pASij(a, b-1, pAG, pBG)*pBG )
+        if(j == 6 & i <= 5) return( pASij(i, j-1, pAG, pBG)*pBG )
         
-        else if( a == 6 & b <= 5) return( pASij(a-1, b, pAG, pBG)*(1-pBG) )
+        else if( i == 6 & j <= 5) return( pASij(i-1, j, pAG, pBG)*(1-pBG) )
         
-        return( pASij(a-1, b, pAG, pBG)*(1-pBG) + pASij(a, b-1, pAG, pBG)*pBG )
+        return( pASij(i-1, j, pAG, pBG)*(1-pBG) + pASij(i, j-1, pAG, pBG)*pBG )
         
       }
-    }
-  }
+  #   }
+  # }
   
 }
 
@@ -64,31 +64,31 @@ pATij <- function(i, j, pAR, pBR) { #i , j , prob a wins given a served, prob b 
   if(j < 0) return(0)
   
   
-  for( a in i:0) { 
-    
-    for( b in j:7) {
+  # for( i in i:0) { 
+  #   
+  #   for( j in j:7) {
       
       MO <- mod(i+j-1, 4)
       
       if(MO == 0 | MO == 3) {
         
-        if(b == 7 & a <= 6) return( pATij(a-1, b, pAR, pBR)*(pAR) )
+        if(j == 7 & i <= 6) return( pATij(i-1, j, pAR, pBR)*(pAR) )
         
-        else if( a == 7 & b <= 6) return( pATij(a, b-1, pAR, pBR)*(1-pAR) )
+        else if( i == 7 & j <= 6) return( pATij(i, j-1, pAR, pBR)*(1-pAR) )
         
-        return(pATij(a-1, b, pAR, pBR)*pAR + pATij(a, b-1, pAR, pBR)*(1-pAR))
+        return(pATij(i-1, j, pAR, pBR)*pAR + pATij(i, j-1, pAR, pBR)*(1-pAR))
         
       } else {
         
-        if(a == 7 & b <= 6) return( pATij(a-1, b, pAR, pBR)*(1-pBR) )
+        if(i == 7 & j <= 6) return( pATij(i-1, j, pAR, pBR)*(1-pBR) )
         
-        else if( b == 7 & a <= 6) return( pATij(a, b-1, pAR, pBR)*pBR )
+        else if( j == 7 & i <= 6) return( pATij(i, j-1, pAR, pBR)*pBR )
         
-        return(pATij(a-1, b, pAR, pBR)*(1-pBR) + pATij(a, b-1, pAR, pBR)*(pBR))
+        return(pATij(i-1, j, pAR, pBR)*(1-pBR) + pATij(i, j-1, pAR, pBR)*(pBR))
         
       }
-    }
-  }
+  #   }
+  # }
   
 }
 
