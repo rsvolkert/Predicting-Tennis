@@ -1,5 +1,6 @@
 
 library(numbers)
+library(tidyverse)
 
 
 # Probability that A wins rally given A serves
@@ -105,38 +106,66 @@ ps <- function(pag, pbg){
 #pbg is prob B wins a game given B served
 
 ## The probability of winning two out of three sets, resulting in winning a match
-pM <- function(ps_a, ps_b,num_set){
+pM <- function(ps_a, ps_b, num_set){
   if (num_set==2){
-    ret<- (ps_a)^2+2*(ps_a)^2*(1-ps_b)
+    ret <- (ps_a)^2 + 2*(ps_a)^2 * ps_b
   }
   if(num_set==3){
-    ret <- (ps_a)^3+3*(ps_a)^3*ps_b+6*ps_a^3*(1-ps_b)^2
+    ret <- (ps_a)^3 + 3*(ps_a)^3 * ps_b + 6*ps_a^3 * (ps_b)^2
   }
   
-  if(ret>1){return(1)}
+  if(ret>1) return(1)
   return(ret)
 }
 
 # Probability of winning a tournament
-pTC <- function(ps_1, ps_2, ps_3, ps_4, numset) {
-  p12 <- pM(ps_1, ps_2, numset)
-  p13 <- pM(ps_1, ps_3, numset)
-  p14 <- pM(ps_1, ps_4, numset)
+pTC <- function(pr_1, pr_2, pr_3, pr_4, numset) {
+  tourney <- data.frame(Player = 1:4,
+                       pRally = c(pr_1,
+                                  pr_2,
+                                  pr_3,
+                                  pr_4),
+                       pGame = NA,
+                       pTourney = NA) %>%
+    mutate(pGame = pg(pRally))
   
-  p21 <- 1 - p12
-  p23 <- pM(ps_2, ps_3, numset)
-  p24 <- pM(ps_2, ps_4, numset)
+  pSet <- matrix(NA, nrow=4, ncol=4)
   
-  p31 <- 1 - p13
+  for(i in 1:4) {
+    for(j in 1:4) {
+      if(i==j) pSet[i,j] <- 0
+      else pSet[i,j] <- ps(tourney$pGame[i], tourney$pGame[j])
+    }
+  }
+  
+  semi <- matrix(NA, nrow=4, ncol=4)
+  
+  for(i in 1:4) {
+    for(j in 1:4) {
+      semi[i,j] <- pM(pSet[j,i], pSet[i,j], numset)
+    }
+  }
+  
+  p21 <- pM(pSet[2,1], pSet[1,2], numset)
+  p23 <- pM(pSet[2,3], pSet[3,2], numset)
+  p24 <- pM(pSet[2,4], pSet[4,2], numset)
+  
+  p31 <- pM(pSet[3,1], pSet[1,3], numset)
   p32 <- 1 - p23
-  p34 <- pM(ps_3, ps_4, numset)
+  p34 <- pM(pSet[3,4], pSet[4,3], numset)
   
-  p41 <- 1 - p14
+  p41 <- pM(pSet[4,1], pSet[1,4], numset)
   p42 <- 1 - p24
   p43 <- 1 - p34
   
-  c(p12 * (p13*p34 + p14*p43),
-    p21 * (p23*p34 + p24*p43),
-    p34 * (p31*p12 + p32*p21),
-    p43 * (p41*p12 + p42*p21))
+  
+  p14 <- 1 - p41
+  p13 <- 1 - p31
+  p12 <- 1 - p21
+  
+  tourney <- tourney %>%
+    mutate(c(p12 * (p13*p34 + p14*p43),
+             p21 * (p23*p34 + p24*p43),
+             p34 * (p31*p12 + p32*p21),
+             p43 * (p41*p12 + p42*p21)))
 }
