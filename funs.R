@@ -80,15 +80,15 @@ pT <- function(pAR, pBR) {
     (1 - pAR*pBR - (1-pAR)*(1-pBR))^-1
 }
 
-#Prob A wins a set given a served 
-ps <- function(pAR, pBR){
+# Prob A wins a set given a served
+ps <- function(pAR, pBR) {
   pag <- pg(pAR)
   pbg <- pg(pBR)
   
   ret <- pASij(7,5, pag, pbg) + pASij(6,6,pAR,pBR)*pT(pAR, pBR) + sum(sapply(0:4, pASij, i=6, pAG=pag, pBG=pbg ))
   
-  if(ret > 1){return(1)}
-  else {return(ret)}
+  if(ret > 1) return(1)
+  return(ret)
 }
 
 
@@ -98,47 +98,41 @@ ps <- function(pAR, pBR){
 #pbg is prob B wins a game given B served
 
 ## The probability of winning two out of three sets, resulting in winning a match
-pM <- function(pAR, pBR, num_set){
+pM <- function(pAR, pBR, num_set) {
   ps_a <- ps(pAR, pBR)
   ps_b <- ps(pBR, pAR)
   
-  if (num_set==2){
-    ret <- (ps_a)^2 + 2*(ps_a)^2 * ps_b
-  }
-  if(num_set==3){
-    ret <- (ps_a)^3 + 3*(ps_a)^3 * ps_b + 6*ps_a^3 * (ps_b)^2
-  }
+  if (num_set==2) ret <- (ps_a)^2 + 2*(ps_a)^2 * ps_b
+  
+  else if(num_set==3) ret <- (ps_a)^3 + 3*(ps_a)^3 * ps_b + 6*ps_a^3 * (ps_b)^2
   
   return(ret)
 }
 
 # Probability of winning a tournament
-pTC <- function(pr_1, pr_2, pr_3, pr_4, numset) {
-  pRally <- c(pr_1, pr_2, pr_3, pr_4)
+pTC <- function(pr1, pr2, pr3, pr4, numset) {
+  p0 <- cbind(rep(1,4))
   
+  P1 <- rbind(c(0, pM(pr1, pr2, numset), 0, 0),
+              c(pM(pr2, pr1, numset), 0, 0, 0),
+              c(0, 0, 0, pM(pr3, pr4, numset)),
+              c(0, 0, pM(pr4, pr3, numset), 0))
   
+  P2 <- rbind(c(0, 0, pM(pr1, pr3, numset), pM(pr1, pr4, numset)),
+              c(0, 0, pM(pr2, pr3, numset), pM(pr2, pr4, numset)),
+              c(pM(pr3, pr1, numset), pM(pr3, pr2, numset), 0, 0),
+              c(pM(pr4, pr1, numset), pM(pr4, pr2, numset), 0, 0))
   
-  p21 <- pM(pSet[2,1], pSet[1,2], numset)
-  p23 <- pM(pSet[2,3], pSet[3,2], numset)
-  p24 <- pM(pSet[2,4], pSet[4,2], numset)
+  p1 <- P1 %*% p0
   
-  p31 <- pM(pSet[3,1], pSet[1,3], numset)
-  p32 <- 1 - p23
-  p34 <- pM(pSet[3,4], pSet[4,3], numset)
+  p2 <- P2 %*% p1
   
-  p41 <- pM(pSet[4,1], pSet[1,4], numset)
-  p42 <- 1 - p24
-  p43 <- 1 - p34
-  
-  p14 <- 1 - p41
-  p13 <- 1 - p31
-  p12 <- 1 - p21
-  
-  tourney <- tourney %>%
-    mutate(c(p12 * (p13*p34 + p14*p43),
-             p21 * (p23*p34 + p24*p43),
-             p34 * (p31*p12 + p32*p21),
-             p43 * (p41*p12 + p42*p21)))
+  t(p1 * p2)
 }
 
 
+100 * (pg1)^3 * qg1^2 * pg2^2 * qg2^3 +
+  40 * pg1^2 * qg1^3 * pg2 * qg2^4 +
+  20 * pg1^4 * qg1 * pg2^3 * qg2^2 +
+  5 * pg1 * qg1^4 * qg2^5 +
+  pg1^5 * pg2^4 * qg2
