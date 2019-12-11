@@ -25,18 +25,26 @@ pASij <- function(i, j, pAG, pBG) { #i , j , prob a wins given a served, prob b 
   if(i < 0) return(0)
   if(j < 0) return(0)
   
-  if(i == 6 & j == 6) {
-    s <- 0
-    
-    for(x in 0:4) {
-      s <- s + pASij(x, 6, pag, pbg) + pASij(6, x, pag, pbg)
-    }
-    
-    return(1 -
-      (s +
-         pASij(7,5, pag, pbg) +
-         pASij(5,7, pag, pbg)))
+  
+  
+  if( i == 7 & j==5){
+    return(pASij(6,5, pAG, pBG) *(1-pBG))
   }
+  
+  
+  
+  # if(i == 6 & j == 6) {
+  #   s <- 0
+  #   
+  #   for(x in 0:4) {
+  #     s <- s + pASij(x, 6, pag, pbg) + pASij(6, x, pag, pbg)
+  #   }
+  #   
+  #   return(1 -
+  #     (s +
+  #        pASij(7,5, pag, pbg) +
+  #        pASij(5,7, pag, pbg)))
+  # }
   
   if(mod((i-1+j), 2) == 0) {
     
@@ -140,4 +148,28 @@ pTC <- function(pr1, pr2, pr3, pr4, numset) {
   
   p1 * p2
 }
+
+<<<<<<< HEAD
+# 60 * (pg1)^3 * qg1^2 * pg2^2 * qg2^3 +
+#   40 * pg1^2 * qg1^3 * pg2 * qg2^4 +
+#   20 * pg1^4 * qg1 * pg2^3 * qg2^2 +
+#   5 * pg1 * qg1^4 * qg2^5 +
+#   pg1^5 * pg2^4 * qg2
+# 
+# 30 * pr1^2 * (1-pr1)^4 * pr2 * (1-pr2)^5 +
+#   pr1 * (1-pr1)^5 * (1-pr2)^6 +
+#   200 * pr1^4 * (1-pr1)^2 * pr2^3 * (1-pr2)^3 +
+#   75 * pr1^5 * (1-pr1) * pr2^4 * (1-pr2)^2 +
+#   150 * pr1^3 * (1-pr1)^3 * pr2^2 * (1-pr2)^4 +
+#   6 * pr1^6 * pr2^5 * (1-pr2)
+# 
+# s=0
+# for(i in 0:4) {
+#   s <- s + pASij(i, 6, pag, pbg) + pASij(6,i, pag, pbg)
+# }
+# 
+# 1 -
+#   (s +
+#      pASij(7,5, pag, pbg) +
+#      pASij(5,7, pag, pbg))
 
