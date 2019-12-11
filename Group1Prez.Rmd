@@ -322,6 +322,6 @@ Winner1 <- which(T1 == max(T1))
 ggplot(data.frame(T1)) +
   geom_col(aes(x=Var1, y=Freq)) +
   xlab("Players") +
-  ggtitle("Which Player Won the Tournement?")
+  ggtitle("Which Player Won the Tournament?")
 
 ```
