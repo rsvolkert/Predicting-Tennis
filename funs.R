@@ -25,6 +25,18 @@ pASij <- function(i, j, pAG, pBG) { #i , j , prob a wins given a served, prob b 
   if(i < 0) return(0)
   if(j < 0) return(0)
   
+  if(i == 6 & j == 6) {
+    s <- 0
+    
+    for(x in 0:4) {
+      s <- s + pASij(x, 6, pag, pbg) + pASij(6, x, pag, pbg)
+    }
+    
+    return(1 -
+      (s +
+         pASij(7,5, pag, pbg) +
+         pASij(5,7, pag, pbg)))
+  }
   
   if(mod((i-1+j), 2) == 0) {
     
@@ -141,3 +153,13 @@ pTC <- function(pr1, pr2, pr3, pr4, numset) {
   75 * pr1^5 * (1-pr1) * pr2^4 * (1-pr2)^2 +
   150 * pr1^3 * (1-pr1)^3 * pr2^2 * (1-pr2)^4 +
   6 * pr1^6 * pr2^5 * (1-pr2)
+
+s=0
+for(i in 0:4) {
+  s <- s + pASij(i, 6, pag, pbg) + pASij(6,i, pag, pbg)
+}
+
+1 -
+  (s +
+     pASij(7,5, pag, pbg) +
+     pASij(5,7, pag, pbg))
