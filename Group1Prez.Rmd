@@ -251,7 +251,7 @@ ggplot(data.frame(T1)) +
 ## Tournament Results: Men
 ```{r, echo=FALSE}
 Tourney1_Men = data.frame(`P(Winning a Rally)` = TDMen[,1],
-                            `Paper P(Winning the Tournement)` = c(.2872, .3599, .0482, .3074))
+                            `Paper P(Winning the Tournement)` = c(.6747, .0851, .0945, .1457))
 #`Our P(Winning the Tournement )` =round( pTC(TDMen[1,1],TDMen[2,1],TDMen[3,1],TDMen[4,1], 2), 4)
  
 rownames(Tourney1_Men)<- c("P. Sampras","S. Schalken",  "A. Agassi", "L. Hewitt")
