@@ -149,6 +149,7 @@ pTC <- function(pr1, pr2, pr3, pr4, numset) {
   p1 * p2
 }
 
+<<<<<<< HEAD
 # 60 * (pg1)^3 * qg1^2 * pg2^2 * qg2^3 +
 #   40 * pg1^2 * qg1^3 * pg2 * qg2^4 +
 #   20 * pg1^4 * qg1 * pg2^3 * qg2^2 +
@@ -171,3 +172,4 @@ pTC <- function(pr1, pr2, pr3, pr4, numset) {
 #   (s +
 #      pASij(7,5, pag, pbg) +
 #      pASij(5,7, pag, pbg))
+

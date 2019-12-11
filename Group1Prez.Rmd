@@ -58,8 +58,10 @@ set.seed(400)
 - Tie-break game: If a game score of 6-6 is reached and tie-break set rules are used. In a tie-break game, a player/team must reach 7 points with a two point advantage to win
 
 ## Game of Tennis 
-![](tennis-scoring.jpg){ width=85% }\
 
+```{r,echo=FALSE, fig.align='center'}
+include_graphics("Scoring.jpg")
+```
 
 ## Values
 
