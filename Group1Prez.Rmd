@@ -1,6 +1,6 @@
 ---
 title: "Group 1: Tennis "
-author: "Olivia Beck, Emma Wilson, Ryan Volkert"
+author: "Olivia Beck, Emma Lewis, Ryan Volkert"
 date: "December 12, 2019"
 output: beamer_presentation
 header-includes: 
@@ -31,6 +31,20 @@ library(tidyverse)
 set.seed(400)
 ```
 
+## Project 
+
+- Project based off a paper by Paul K. Newton and Joseph B. Keller called Probability of Winning at Tennis 1. Theory and Data
+
+- Paper discussed calculating the probability that one player, A, wins a tennis match against another player, B
+
+- Based on other papers involving calculating the probability of winning a game in other racket sports the conclusion was made to treat points in tennis as  independent identically distributed (iid) random variables
+
+- Although it is noted at points in tennis are not iid for most purposes this is not a bad assumption as the divergence from iid is small
+  
+  - This was supported by a statistical anaylsis of 4 years of Wimbledon data
+  
+  
+  
 ## The Game of Tennis 
 
 - Point: Smallest unit of measurement (Love-15-30-40-game)
@@ -45,7 +59,8 @@ set.seed(400)
 
 - Tie-break game: If a game score of 6-6 is reached and tie-break set rules are used. In a tie-break game, a player/team must reach 7 points with a two point advantage to win
 
-
+## Game of Tennis 
+![](tennis-scoring.jpg){ width=85% }\
 
 
 ## Values
@@ -79,6 +94,7 @@ $$\text{P(A Winning a Rally | A Served)} = p_A^R = \frac{\text{Points Won On Ser
 $$\text{P(A Winning a Game | A Served)}$$
 $$=p_A^G = (p_A^R)^4[1+4q_A^R+10(q_A^R)^2] +20(p_A^Rq_A^R)^3(p_A^R)^2[1-2p_A^Rq_A^R]^{-1}$$ 
 
+- Where Probability A loses a rally given A served:$$q_A^R = 1-\frac{\text{Points Won On Serve}}{\text{Points Served}}$$
 
 
 ## Theoretical Probabilities: Set
@@ -141,7 +157,11 @@ Men's (Best of 5):
 $$\text{P(A Winning the Match | A Served First)}$$ 
 $$=p_A^M = (p_A^S)^3 + 3(p_A^S)^3p_B^S + 6(p_A^S)^3(p_B^S)^2$$
 
+Where: 
 
+- $$p_A^S=\text{Probabilty A wins a set given A served}$$
+
+- $$p_B^S=\text{Probabilty B wins a set given B served}$$
 
 ## Results of Game 
 ```{r, echo = FALSE}

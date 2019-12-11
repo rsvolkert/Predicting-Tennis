@@ -14,72 +14,85 @@ pr <- function(pwon, pserve) {
 pg <- function(pr) {
   qr <- 1 - pr
   
-  pr^4 * (1 + 4*qr + 10*qr^2) + 20 * (pr*qr)^3 * pr^2 * (1 - 2*pr*qr)^(-1)
+  pr^4 * (1 + 4*qr + 10*qr^2) + 20*(pr*qr)^3 * pr^2 * (1 - 2*pr*qr)^-1
 }
 
 
 #equation 6-8
-pASij <- function(i, j, pAG, pBG) { #i , j , prob a wins given a served, prob b wins given b served
-  # initial conditions
-  if(i == 0 & j == 0) return(1)
-  if(i < 0) return(0)
-  if(j < 0) return(0)
-  
-  
-  if(mod((i-1+j), 2) == 0) {
-        
-    if(j == 6 & i <= 5) return( pASij(i, j-1, pAG, pBG)*(1-pAG) )
-        
-    else if( i == 6 & j <= 5) return( pASij(i-1, j, pAG, pBG)*pAG )
-    
-    return( pASij(i-1, j, pAG, pBG)*pAG + pASij(i, j-1, pAG, pBG)*(1-pAG))
-        
-  } else {
-        
-    if(j == 6 & i <= 5) return( pASij(i, j-1, pAG, pBG)*pBG )
-        
-    else if( i == 6 & j <= 5) return( pASij(i-1, j, pAG, pBG)*(1-pBG) )
-        
-    return( pASij(i-1, j, pAG, pBG)*(1-pBG) + pASij(i, j-1, pAG, pBG)*pBG )
-        
+pASij <- function(i, j, pAG, pBG){ #i , j , prob a wins given a served, prob b wins given b served
+  if(i == 0 & j == 0){return(1)}
+  if(i < 0){return(0)}
+  if(j < 0){return(0)}
+  for( a in 1:i){ 
+    for( b in j:6){
+      if(mod((i+j-1), 2) == 1) {
+        if(j == 6 & i <= 5){
+          return(pASij(i, j-1, pAG, pBG)*(1-pAG))
+        }
+        else if( i == 6 & j <= 5){
+          return(pASij(i-1, j, pAG, pBG)*pAG)
+        }
+        else{
+          return(pASij(i-1, j, pAG, pBG)*pAG + pASij(i, j-1, pAG, pBG)*(1-pAG))
+        }
+      }
+      else{
+        if(j == 6 & i <= 5){
+          return(pASij(i, j-1, pAG, pBG)*pBG)
+        }
+        else if( i == 6 & j <= 5){
+          return(pASij(i-1, j, pAG, pBG)*(1-pBG))
+        }
+        else{
+          return(pASij(i-1, j, pAG, pBG)*(1-pBG) + pASij(i, j-1, pAG, pBG)*pBG)
+        }
+      }
+    }
   }
+  
 }
 
 
 
-pATij <- function(i, j, pAR, pBR) { #i , j , prob a wins given a served, prob b wins given b served
-  # initial conditions
-  if(i == 0 & j == 0) return(1)
-  if(i < 0) return(0)
-  if(j < 0) return(0)
-      
-  MO <- mod(i+j-1, 4)
-      
-  if(MO == 0 | MO == 3) {
-        
-    if(j == 7 & i <= 6) return( pATij(i-1, j, pAR, pBR)*(pAR) )
-        
-    else if( i == 7 & j <= 6) return( pATij(i, j-1, pAR, pBR)*(1-pAR) )
-        
-    return(pATij(i-1, j, pAR, pBR)*pAR + pATij(i, j-1, pAR, pBR)*(1-pAR))
-        
-  } else {
-        
-    if(i == 7 & j <= 6) return( pATij(i-1, j, pAR, pBR)*(1-pBR) )
-        
-    else if( j == 7 & i <= 6) return( pATij(i, j-1, pAR, pBR)*pBR )
-        
-    return(pATij(i-1, j, pAR, pBR)*(1-pBR) + pATij(i, j-1, pAR, pBR)*(pBR))
-        
+pATij <- function(i, j, pAR, pBR){ #i , j , prob a wins given a served, prob b wins given b served
+  if(i == 0 & j == 0){return(1)}
+  if(i < 0){return(0)}
+  if(j < 0){return(0)}
+  for( a in 0:i){ 
+    for( b in j:7){
+      MO <- mod(i+j-1, 4)
+      if(MO == 0 | MO == 3) {
+        if(j == 7 & i <= 6){
+          return(pATij(i-1, j, pAR, pBR)*(pAR))
+        }
+        else if( i == 7 & j <= 6){
+          return(pATij(i, j-1, pAR, pBR)*(1-pAR))
+        }
+        else{
+          return(pATij(i-1, j, pAR, pBR)*pAR + pATij(i, j-1, pAR, pBR)*(1-pAR))
+        }
+      }
+      else{
+        if(j == 7 & i <= 6){
+          return(pATij(i-1, j, pAR, pBR)*(1-pBR))
+        }
+        else if( i == 7 & j <= 6){
+          return(pATij(i, j-1, pAR, pBR)*(pBR))
+        }
+        else{
+          return(pATij(i-1, j, pAR, pBR)*(1-pBR) + pATij(i, j-1, pAR, pBR)*(pBR))
+        }
+      }
+    }
   }
+  
 }
 
-pT <- function(pAR, pBR) {
-  sum(sapply(0:5, pATij, i=7, pAR=pAR, pBR=pBR)) +
-    pATij(6,6,pAR,pBR)*pAR*(1-pBR) *
-    (1 - pAR*pBR - (1-pAR)*(1-pBR))^-1
-}
 
+
+
+
+<<<<<<< HEAD
 # Prob A wins a set given a served
 ps <- function(pAR, pBR) {
   pag <- pg(pAR)
@@ -89,6 +102,13 @@ ps <- function(pAR, pBR) {
   
   if(ret > 1) return(1)
   return(ret)
+=======
+#Prob A wins a set given a served 
+ps <- function(pag, pbg){
+  ret <- pASij(7,5, pag, pbg) + pATij(6,6,pag, pbg) + sum(sapply(0:4, pASij, i=6, pAG=pag, pBG=pbg ))
+  if(ret > 1){return(1)}
+  else {return(ret)}
+>>>>>>> 965c6ad4784ebd958646c760a2a7228f6a02ad5b
 }
 
 
@@ -106,6 +126,7 @@ pM <- function(pAR, pBR, num_set) {
   
   else if(num_set==3) ret <- (ps_a)^3 + 3*(ps_a)^3 * ps_b + 6*ps_a^3 * (ps_b)^2
   
+  if(ret>1) return(1)
   return(ret)
 }
 
@@ -130,9 +151,9 @@ pTC <- function(pr1, pr2, pr3, pr4, numset) {
   t(p1 * p2)
 }
 
-
 100 * (pg1)^3 * qg1^2 * pg2^2 * qg2^3 +
   40 * pg1^2 * qg1^3 * pg2 * qg2^4 +
   20 * pg1^4 * qg1 * pg2^3 * qg2^2 +
   5 * pg1 * qg1^4 * qg2^5 +
   pg1^5 * pg2^4 * qg2
+
