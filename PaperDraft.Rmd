@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ### Motivation 
-
+The probability of winning a game, a set, and a match in tennis are calculated based on the each's players probability of winning a point on a serve. This paper and the reference paper, The Probability of Winning at Tennis 1. Theory and Data written by Paul K. Newton and Joseph B. keller both make the assumption that each serve is an independently and identically distributed (iid) random variable. This assumption has been made in other reports relating to the probability of winning a game in other racuet sports and even though serves in tennis are not actually iid random varibales for most purposes this is not a bad assumption as the divergence from iid is small. 
 - Explination of Game, Set, Match 
 
 - How likely are the players to win the torunament? 
