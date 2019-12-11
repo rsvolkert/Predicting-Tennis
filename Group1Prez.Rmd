@@ -1,5 +1,6 @@
 ---
-title: "Group 1: Tennis "
+title: "Group 1: Predicting the Outcomes of Tennis Tournaments"
+subtitle: "A Monte Carlo Approach"
 author: "Olivia Beck, Emma Lewis, Ryan Volkert"
 date: "December 12, 2019"
 output: beamer_presentation
@@ -38,12 +39,13 @@ set.seed(400)
 
 - Based on other papers the conclusion was made to treat serves in tennis as independent identically distributed (iid) random variables
 
-- It is noted that points in tennis are not iid for most purposes this is not a bad assumption as the divergence from iid is small
+- It is noted that points in tennis are not iid for most purposes
+  - This is not a bad assumption as the divergence from iid is small
   
-- Both two out of three and three out of five set matches were considered aloowing for 13-point tiebreaker in each set if needed
+- Both two out of three and three out of five set matches were considered allowing for 13-point tiebreaker in each set if needed
   
   
-## The Game of Tennis 
+## The Rules of Tennis 
 
 - Point: Smallest unit of measurement (Love-15-30-40-game)
 
@@ -57,7 +59,7 @@ set.seed(400)
 
 - Tie-break game: If a game score of 6-6 is reached and tie-break set rules are used. In a tie-break game, a player/team must reach 7 points with a two point advantage to win
 
-## Game of Tennis 
+## The Rules of Tennis 
 
 ```{r,echo=FALSE, fig.align='center'}
 include_graphics("Scoring.jpg")
@@ -105,7 +107,7 @@ $$q_A^R = 1-\frac{\text{Points Won On Serve}}{\text{Points Served}}$$
 $$ \text{P(A Winnning a Set | A Served)} $$
 $$= p_A^S =\sum_{j=0}^4p_A^S(6,j) + p_A^S(7,5) + p_A^S(6,6)p_A^T$$ \pause
 
-Where, $p_A^S(i,j)$ is defined recursivly as: 
+Where, $p_A^S(i,j)$ is defined recursively as: 
 
 $p_A^S(0,0) = 1$, $p_A^S(i,j) = 0$ if i<0 or j<0. 
 
@@ -129,7 +131,7 @@ $p_A^S(0,0) = 1$, $p_A^S(i,j) = 0$ if i<0 or j<0.
 $$\text{P(A Winning the Tie Breaker | A Served Initially)} $$
 $$=p_A^T = \sum_{j=0}^5p_A^T(7,j) +  p_A^T(6,6)\sum_{n=1}^{\infty} p_A^T(n+2, n) $$ \pause
 
-Where,  $p_A^T(i,j)$ is defined recursivly as: 
+Where,  $p_A^T(i,j)$ is defined recursively as: 
 
 $p_A^T(0,0) = 1$, $p_A^T(i,j) = 0$ if i<0 or j<0. 
 
@@ -169,11 +171,11 @@ Data used in paper:
 
   - Men and Women semifinalists in the 2002 U.S Open tournament 
   
-  - Men and Women semifinalists in the 2002 Wimbledon tournament
+  - Men and Women semifinalists in the 2002 Wimbledon tournament \pause
   
 Data used in our simulation:
   
-  - Men and Women semifinalists in the 2019 Wibledon tournament
+  - Men and Women semifinalists in the 2019 Wimbledon tournament
   
 
 ## Results of Game 
@@ -274,7 +276,7 @@ ggplot(data.frame(T1)) +
 
 ## 2019 Wimbledon: Women 
 
-```{r, warning=FALSE, echo=FALSE}
+```{r, warning=FALSE, echo=FALSE, message=F}
 WimWomen <- read_csv("2019 Womens Wimbledon.csv")
 
 WimWomen$`P(Winning a Rally)` <- WimWomen$`Points Won on Serve`/WimWomen$`Total Points Served`
@@ -284,7 +286,7 @@ WimWomen <- as.data.frame(WimWomen)
 WimWomen$`P(Winning Tournement)`<- pTC(WimWomen[1,4][1], WimWomen[2,4][1],WimWomen[3,4][1],WimWomen[3,4][1],2)
 
 
-T1<- table(base::sample(WimWomen$Name, 2000, prob = WimWomen$`P(Winning a Rally)`, replace = TRUE)) 
+T1 <- table(base::sample(WimWomen$Name, 2000, prob = WimWomen$`P(Winning a Rally)`, replace = TRUE)) 
 
 Winner1 <- which(T1 == max(T1))
 
@@ -292,15 +294,15 @@ Winner1 <- which(T1 == max(T1))
 ggplot(data.frame(T1)) +
   geom_col(aes(x=Var1, y=Freq/2000)) +
   xlab("Players") +
-  ylab("P(Win the Tournement)")
-  ggtitle("Which Player Won the Tournement?")
+  ylab("P(Win the Tournament)") +
+  ggtitle("Which Player Won the Tournament?")
 
 ```
 
 
 ## 2019 Wimbledon: Men 
 
-```{r, warning=FALSE, echo=FALSE}
+```{r, warning=FALSE, echo=FALSE, message=F}
 WimMen <- read_csv("2019 Men's Wimbledon.csv")
 
 WimMen <- as.data.frame(WimMen)
