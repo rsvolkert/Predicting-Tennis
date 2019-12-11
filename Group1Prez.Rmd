@@ -197,7 +197,7 @@ kable(TDWomen, format = "latex", booktabs = TRUE, caption = "Data for the Womens
           kable_styling(latex_options = "scale_down")
 
 ```
-
+\pause
 ```{r, echo = FALSE}
 
 TDMen<- as.data.frame(matrix(0, nrow = 4, ncol = 3))
@@ -221,5 +221,58 @@ kable(TDMen, format = "latex", booktabs = TRUE, caption = "Data for the Mens Sem
 
 ```
 
+## Tournament Results: Women
+```{r, echo=FALSE}
+Tourney1_Women = data.frame(`P(Winning a Rally)` = TDWomen[,1],
+                            `Paper P(Winning the Tournement)` = c(.2872, .3599, .0482, .3074))
+#`Our P(Winning the Tournement )` =round( pTC(TDWomen[1,1],TDWomen[2,1],TDWomen[3,1],TDWomen[4,1], 2), 4)
+ 
+rownames(Tourney1_Women)<- c("S. Williams","L. Davenport",  "A. Mauresmo", "V. Williams")
+
+
+T1<- table(base::sample(rownames(Tourney1_Women), 2000, prob = Tourney1_Women$Paper.P.Winning.the.Tournement., replace = TRUE)) 
+
+
+Winner1 <- which(T1 == max(T1))
+#Winner1
+
+
+#T2<- table(base::sample(rownames(Tourney1_Women), 2000, prob = Tourney1_Women$Our.P.Winning.the.Tournement., replace = TRUE)) 
+#Winner2 <- which(T2 == max(T2))
+#Winner2
+
+ggplot(data.frame(T1)) +
+  geom_col(aes(x=Var1, y=Freq)) +
+  xlab("Players") +
+  ggtitle("Which Player Won the Tournement?")
+
+```
+
+## Tournament Results: Men
+```{r, echo=FALSE}
+Tourney1_Men = data.frame(`P(Winning a Rally)` = TDMen[,1],
+                            `Paper P(Winning the Tournement)` = c(.2872, .3599, .0482, .3074))
+#`Our P(Winning the Tournement )` =round( pTC(TDMen[1,1],TDMen[2,1],TDMen[3,1],TDMen[4,1], 2), 4)
+ 
+rownames(Tourney1_Men)<- c("P. Sampras","S. Schalken",  "A. Agassi", "L. Hewitt")
+
+
+T1<- table(base::sample(rownames(Tourney1_Men), 2000, prob = Tourney1_Men$Paper.P.Winning.the.Tournement., replace = TRUE)) 
+
+
+Winner1 <- which(T1 == max(T1))
+#Winner1
+
+
+#T2<- table(base::sample(rownames(Tourney1_Men), 2000, prob = Tourney1_Men$Our.P.Winning.the.Tournement., replace = TRUE)) 
+#Winner2 <- which(T2 == max(T2))
+#Winner2
+
+ggplot(data.frame(T1)) +
+  geom_col(aes(x=Var1, y=Freq)) +
+  xlab("Players") +
+  ggtitle("Which Player Won the Tournement?")
+
+```
 
 
