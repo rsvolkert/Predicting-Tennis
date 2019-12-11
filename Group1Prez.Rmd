@@ -22,7 +22,6 @@ header-includes:
 ---
 
 ```{r setup, include=FALSE, warning=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
 source("funs.R")
 library(knitr)
 options(kableExtra.latex.load_packages = FALSE) 
@@ -221,4 +220,6 @@ kable(TDMen, format = "latex", booktabs = TRUE, caption = "Data for the Mens Sem
           kable_styling(latex_options = "scale_down")
 
 ```
+
+
 
