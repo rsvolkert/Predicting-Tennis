@@ -247,8 +247,6 @@ ggplot(data.frame(T1)) +
 ```
 
 
-
-
 ## Tournament Results: Men
 ```{r, echo=FALSE}
 Tourney1_Men = data.frame(`P(Winning a Rally)` = TDMen[,1],
@@ -325,10 +323,3 @@ ggplot(data.frame(T1)) +
   ggtitle("Which Player Won the Tournement?")
 
 ```
-
-
-
-
-
-
-
