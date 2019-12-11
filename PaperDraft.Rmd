@@ -10,12 +10,17 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ### Motivation 
-The probability of winning a game, a set, and a match in tennis are calculated based on the each's players probability of winning a point on a serve. This paper and the reference paper, The Probability of Winning at Tennis 1. Theory and Data written by Paul K. Newton and Joseph B. keller both make the assumption that each serve is an independently and identically distributed (iid) random variable. This assumption has been made in other reports relating to the probability of winning a game in other racuet sports and even though serves in tennis are not actually iid random varibales for most purposes this is not a bad assumption as the divergence from iid is small. 
 
-A game in tennis is played with one player serving and is one by the first player to score four or more points and to be at least two points ahead of the other player. Player A can win a game against player B by a score of (4,0), (4,1) or (4,2), or else the score becomes (3,3) which is called "deuce". 
-- Explination of Game, Set, Match 
+- How likely are the players to win the tournament? 
 
-- How likely are the players to win the torunament? 
+The probability of winning a game, a set, and a match in tennis are calculated based on the each players probability of winning a point on a serve. This paper and the reference paper, The Probability of Winning at Tennis 1. Theory and Data written by Paul K. Newton and Joseph B. Keller both make the assumption that each serve is an independently and identically distributed (iid) random variable. This assumption has been made in other reports relating to the probability of winning a game in other racket sports and even though serves in tennis are not actually iid random variables for most purposes this is not a bad assumption as the divergence from iid is small. 
+
+A game in tennis is played with one player serving and is won by the first player to score four or more points and to be at least two points ahead of the other player. Player A can win a game against player B by a score of (4,0), (4,1) or (4,2), or else the score becomes (3,3) which is called "deuce". 
+
+In a set the players alternate serving until a player wins at least six games and is ahead by at least two games. If the game score reaches 6-6, a 13-point tiebreaker is used to determine who wins the set. 
+
+To win a match a player in woman's format a player must win two out of three sets and in men's format a player must win three out of five sets. 
+
 
 ### Methods
 
