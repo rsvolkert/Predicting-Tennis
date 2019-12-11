@@ -236,19 +236,18 @@ T1<- table(base::sample(rownames(Tourney1_Women), 2000, prob = Tourney1_Women$Pa
 
 
 Winner1 <- which(T1 == max(T1))
-#Winner1
 
-
-#T2<- table(base::sample(rownames(Tourney1_Women), 2000, prob = Tourney1_Women$Our.P.Winning.the.Tournement., replace = TRUE)) 
-#Winner2 <- which(T2 == max(T2))
-#Winner2
 
 ggplot(data.frame(T1)) +
-  geom_col(aes(x=Var1, y=Freq)) +
-  xlab("Players") +
+  geom_col(aes(x=Var1, y=Freq/2000)) +
+  xlab("Players") + 
+  ylab("P(Winning the Tournement") +
   ggtitle("Which Player Won the Tournement?")
 
 ```
+
+
+
 
 ## Tournament Results: Men
 ```{r, echo=FALSE}
@@ -263,12 +262,62 @@ T1<- table(base::sample(rownames(Tourney1_Men), 2000, prob = Tourney1_Men$Paper.
 
 
 Winner1 <- which(T1 == max(T1))
-#Winner1
 
 
-#T2<- table(base::sample(rownames(Tourney1_Men), 2000, prob = Tourney1_Men$Our.P.Winning.the.Tournement., replace = TRUE)) 
-#Winner2 <- which(T2 == max(T2))
-#Winner2
+ggplot(data.frame(T1)) +
+  geom_col(aes(x=Var1, y=Freq/2000)) +
+  xlab("Players") +
+  ylab("P(Win the Tournement)") +
+  ggtitle("Which Player Won the Tournement?")
+
+```
+
+
+
+## 2019 Wimbledon: Women 
+
+```{r, warning=FALSE, echo=FALSE}
+WimWomen <- read_csv("2019 Womens Wimbledon.csv")
+
+WimWomen$`P(Winning a Rally)` <- WimWomen$`Points Won on Serve`/WimWomen$`Total Points Served`
+
+WimWomen <- as.data.frame(WimWomen)
+
+WimWomen$`P(Winning Tournement)`<- pTC(WimWomen[1,4][1], WimWomen[2,4][1],WimWomen[3,4][1],WimWomen[3,4][1],2)
+
+
+T1<- table(base::sample(WimWomen$Name, 2000, prob = WimWomen$`P(Winning a Rally)`, replace = TRUE)) 
+
+Winner1 <- which(T1 == max(T1))
+
+
+ggplot(data.frame(T1)) +
+  geom_col(aes(x=Var1, y=Freq/2000)) +
+  xlab("Players") +
+  ylab("P(Win the Tournement)")
+  ggtitle("Which Player Won the Tournement?")
+
+```
+
+
+## 2019 Wimbledon: Men 
+
+```{r, warning=FALSE, echo=FALSE}
+WimMen <- read_csv("2019 Men's Wimbledon.csv")
+
+WimMen <- as.data.frame(WimMen)
+
+WimMen$`P(Winning a Rally)` <- WimMen$`Points Won on Serve`/ WimMen$`Total Points on Serve`
+
+
+
+WimMen$`P(Winning Tournement)`<- pTC(WimMen[1,4][1], WimMen[2,4][1],WimMen[3,4][1],WimMen[3,4][1],2)
+
+
+T1<- table(base::sample(WimMen$Name, 2000, prob = WimMen$`P(Winning a Rally)`, replace = TRUE)) 
+
+Winner1 <- which(T1 == max(T1))
+
 
 ggplot(data.frame(T1)) +
   geom_col(aes(x=Var1, y=Freq)) +
@@ -276,5 +325,10 @@ ggplot(data.frame(T1)) +
   ggtitle("Which Player Won the Tournement?")
 
 ```
+
+
+
+
+
 
 

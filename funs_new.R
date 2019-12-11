@@ -110,7 +110,7 @@ ps <- function(pAR, pBR) {
     pASij(6,6, pag, pbg) * pT(pAR, pBR)
 }
 
-source('Probability of winning a set broken down .R')
+#source('Probability of winning a set broken down .R')
 
 
 #where pag is prob A wins a game given A served and 
