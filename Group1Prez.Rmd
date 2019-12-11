@@ -35,14 +35,13 @@ set.seed(400)
 
 - Project based off a paper by Paul K. Newton and Joseph B. Keller called Probability of Winning at Tennis 1. Theory and Data
 
-- Paper discussed calculating the probability that one player, A, wins a tennis match against another player, B
+- Paper discussed how the probability of winning a game, a set, and a match in tennis are computed based on each player's probability of winning a point on a serve
 
-- Based on other papers involving calculating the probability of winning a game in other racket sports the conclusion was made to treat points in tennis as  independent identically distributed (iid) random variables
+- Based on other papers the conclusion was made to treat serves in tennis as independent identically distributed (iid) random variables
 
-- Although it is noted at points in tennis are not iid for most purposes this is not a bad assumption as the divergence from iid is small
+- It is noted that points in tennis are not iid for most purposes this is not a bad assumption as the divergence from iid is small
   
-  - This was supported by a statistical anaylsis of 4 years of Wimbledon data
-  
+- Both two out of three and three out of five set matches were considered aloowing for 13-point tiebreaker in each set if needed
   
   
 ## The Game of Tennis 
@@ -174,6 +173,7 @@ Data used in paper:
 Data used in our simulation:
   
   - Men and Women semifinalists in the 2019 Wibledon tournament
+  
 
 ## Results of Game 
 ```{r, echo = FALSE}
