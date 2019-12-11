@@ -91,8 +91,6 @@ pATij <- function(i, j, pAR, pBR){ #i , j , prob a wins given a served, prob b w
 
 
 
-
-<<<<<<< HEAD
 # Prob A wins a set given a served
 ps <- function(pAR, pBR) {
   pag <- pg(pAR)
@@ -102,13 +100,6 @@ ps <- function(pAR, pBR) {
   
   if(ret > 1) return(1)
   return(ret)
-=======
-#Prob A wins a set given a served 
-ps <- function(pag, pbg){
-  ret <- pASij(7,5, pag, pbg) + pATij(6,6,pag, pbg) + sum(sapply(0:4, pASij, i=6, pAG=pag, pBG=pbg ))
-  if(ret > 1){return(1)}
-  else {return(ret)}
->>>>>>> 965c6ad4784ebd958646c760a2a7228f6a02ad5b
 }
 
 
@@ -151,9 +142,9 @@ pTC <- function(pr1, pr2, pr3, pr4, numset) {
   t(p1 * p2)
 }
 
-100 * (pg1)^3 * qg1^2 * pg2^2 * qg2^3 +
-  40 * pg1^2 * qg1^3 * pg2 * qg2^4 +
-  20 * pg1^4 * qg1 * pg2^3 * qg2^2 +
-  5 * pg1 * qg1^4 * qg2^5 +
-  pg1^5 * pg2^4 * qg2
+#100 * (pg1)^3 * qg1^2 * pg2^2 * qg2^3 +
+ # 40 * pg1^2 * qg1^3 * pg2 * qg2^4 +
+  #20 * pg1^4 * qg1 * pg2^3 * qg2^2 +
+  #5 * pg1 * qg1^4 * qg2^5 +
+  #pg1^5 * pg2^4 * qg2
 
