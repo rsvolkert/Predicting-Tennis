@@ -258,9 +258,8 @@ ggplot(data.frame(T1)) +
 
 ## 2002 U.S Open: Women
 
-```{r,echo=FALSE, fig.align='center'}
-include_graphics("Serena.png")
-```
+\centerline{\includegraphics[height=2in]{Serena.png}}
+
 
 ## 2002 U.S Open: Men
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
@@ -284,9 +283,9 @@ Winner2 <- which(T2 == max(T2))
 
 
 ggplot(data.frame(T2)) +
-  geom_col(aes(x=Var1, y=Freq)) +
+  geom_col(aes(x=Var1, y=Freq/2000)) +
   xlab("Players") +
-  ylab("Number of Times Won") +
+  ylab("Proportion of Times Won") +
   ggtitle("Which Player Won the Tournament?",
           subtitle = "2002 Men's US Open")
 
@@ -294,9 +293,9 @@ ggplot(data.frame(T2)) +
 
 ## 2002 U.S Open: Men
 
-```{r,echo=FALSE, fig.align='center'}
-include_graphics("Pete.png")
-```
+
+\centerline{\includegraphics[height=2in]{Pete.png}}
+
 
 
 ## 2002 Wimbledon: Women
@@ -317,18 +316,17 @@ wWim02$pTC <- as.numeric(pTC(pRally[1], pRally[2], pRally[3], pRally[4], 2))
 T3 <- table(base::sample(wWim02$Name, 2000, prob = wWim02$pTC, replace = TRUE))
 
 ggplot(data.frame(T3)) +
-  geom_col(aes(x=Var1, y=Freq)) +
+  geom_col(aes(x=Var1, y=Freq/2000)) +
   xlab('Players') +
-  ylab('Number of Times Won') +
+  ylab('Proportion of Times Won') +
   ggtitle('Which Player Won the Tournament?',
           subtitle = "2002 Women's Wimbledon")
 ```
 
 ## 2002 Wimbledon: Women
 
-```{r, fig.align='center'}
-include_graphics('Serena2.png')
-```
+\centerline{\includegraphics[height=2in]{Serena2.png}}
+
 
 ## 2002 Wimbledon: Men
 
@@ -343,23 +341,21 @@ for(i in 1:4) {
 
 pRally <- as.numeric(mWim02$pRally)
 
-mWim02$pTC <- as.numeric(pTC(pRally[1], pRally[2], pRally[3], pRally[4], 2))
+mWim02$pTC <- as.numeric(pTC(pRally[1], pRally[2], pRally[3], pRally[4], 3))
 
 T4 <- table(base::sample(mWim02$Name, 2000, prob = mWim02$pTC, replace = TRUE))
 
 ggplot(data.frame(T4)) +
-  geom_col(aes(x=Var1, y=Freq)) +
+  geom_col(aes(x=Var1, y=Freq/2000)) +
   xlab('Players') +
-  ylab('Number of Times Won') +
+  ylab('Proportion of Times Won') +
   ggtitle('Which Player Won the Tournament?',
           subtitle = "2002 Men's Wimbledon")
 ```
 
 ## 2002 Wimbledon: Men
 
-```{r, fig.align='center'}
-include_graphics('Hewitt.png')
-```
+\centerline{\includegraphics[height=2in]{Hewitt.png}}
 
 ## 2019 Wimbledon: Women 
 
@@ -380,9 +376,9 @@ wWim19$pTC <- as.numeric(pTC(pRally[1], pRally[2], pRally[3], pRally[4], 2))
 T4 <- table(base::sample(wWim19$Name, 2000, prob = wWim19$pTC, replace = TRUE))
 
 ggplot(data.frame(T4)) +
-  geom_col(aes(x=Var1, y=Freq)) +
+  geom_col(aes(x=Var1, y=Freq/2000)) +
   xlab('Players') +
-  ylab('Number of Times Won') +
+  ylab('Proportion of Times Won') +
   ggtitle('Which Player Won the Tournament?',
           subtitle = "2019 Women's Wimbledon")
 ```
@@ -390,9 +386,8 @@ ggplot(data.frame(T4)) +
 
 ## 2019 Wimbledon: Women 
 
-```{r,echo=FALSE, fig.align='center'}
-include_graphics("Simona.png")
-```
+\centerline{\includegraphics[height=2in]{Simona.png}}
+
 
 
 ## 2019 Wimbledon: Men 
@@ -409,21 +404,19 @@ for(i in 1:4) {
 
 pRally <- as.numeric(mWim19$pRally)
 
-mWim19$pTC <- as.numeric(pTC(pRally[1], pRally[2], pRally[3], pRally[4], 2))
+mWim19$pTC <- as.numeric(pTC(pRally[1], pRally[2], pRally[3], pRally[4], 3))
 
 T5 <- table(base::sample(mWim19$Name, 2000, prob = mWim19$pTC, replace = TRUE))
 
 ggplot(data.frame(T5)) +
-  geom_col(aes(x=Var1, y=Freq)) +
+  geom_col(aes(x=Var1, y=Freq/2000)) +
   xlab('Players') +
-  ylab('Number of Times Won') +
+  ylab('Proportion of Times Won') +
   ggtitle('Which Player Won the Tournament?',
           subtitle = "2002 Men's Wimbledon")
 ```
 
 ## 2019 Wimbledon: Men 
 
-```{r,echo=FALSE, fig.align='center'}
-include_graphics("Novak.png")
-```
+\centerline{\includegraphics[height=2in]{Novak.png}}
 
