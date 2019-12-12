@@ -26,6 +26,7 @@ header-includes:
 ```{r setup, include=FALSE, warning=FALSE}
 source("funs.R")
 library(knitr)
+opts_chunk$set(echo=FALSE)
 options(kableExtra.latex.load_packages = FALSE) 
 library(kableExtra)
 library(tidyverse)
@@ -34,13 +35,13 @@ set.seed(400)
 
 ## Project 
 
-- Project based off a paper by Paul K. Newton and Joseph B. Keller called Probability of Winning at Tennis 1. Theory and Data
+- Based on a paper by Paul K. Newton and Joseph B. Keller called *Probability of Winning at Tennis 1. Theory and Data*
 
 - Paper discussed how the probability of winning a game, a set, and a match in tennis are computed based on each player's probability of winning a point on a serve
 
 - Based on other papers the conclusion was made to treat serves in tennis as independent identically distributed (iid) random variables
 
-- It is noted that points in tennis are not iid for most purposes this is not a bad assumption as the divergence from iid is small
+- It is noted that points in tennis are not iid for most purposes. This is not a bad assumption as the divergence from iid is small
   
 - Both two out of three and three out of five set matches were considered allowing for 13-point tiebreaker in each set if needed
   
@@ -51,11 +52,11 @@ set.seed(400)
 
 - Game: A game is one when a player reaches 4 points with at least a 2 point advantage 
 
-- Set: A set consists of 6 games and is won by the player who reaches 6 games first 
+- Set: A set is won by the player who wins 6 games first
 
 - Advantage Set: If a game score of 6-6 is reached and advantage set rules are used, a player can only win a set with a 2 game lead
 
-- Matches: Best of 3 set (for women) or 5 sets (for men)
+- Matches: Best of 3 sets (for women) or 5 sets (for men)
 
 - Tie-break game: If a game score of 6-6 is reached and tie-break set rules are used. In a tie-break game, a player/team must reach 7 points with a two point advantage to win
 
@@ -109,7 +110,7 @@ $$= p_A^S =\sum_{j=0}^4p_A^S(6,j) + p_A^S(7,5) + p_A^S(6,6)p_A^T$$ \pause
 
 Where, $p_A^S(i,j)$ is defined recursively as: 
 
-$p_A^S(0,0) = 1$, $p_A^S(i,j) = 0$ if i<0 or j<0. 
+$p_A^S(0,0) = 1$, $p_A^S(i,j) = 0$ if $i<0$ or $j<0$. 
 
 - if i+j -1 is even: $p_A^S(i,j) = p_A^S(i-1,j)p_A^G + p_A^S(i, j-1)q_A^G$
 
@@ -129,7 +130,7 @@ $p_A^S(0,0) = 1$, $p_A^S(i,j) = 0$ if i<0 or j<0.
 
 
 $$\text{P(A Winning the Tie Breaker | A Served Initially)} $$
-$$=p_A^T = \sum_{j=0}^5p_A^T(7,j) +  p_A^T(6,6)\sum_{n=1}^{\infty} p_A^T(n+2, n) $$ \pause
+$$=p_A^T = \sum_{j=0}^5p_A^T(7,j) +  p_A^T(6,6)p_A^Rq_B^R[1 - p_A^Rp_B^R - q_A^Rq_B^R]^{-1}$$ \pause
 
 Where,  $p_A^T(i,j)$ is defined recursively as: 
 
@@ -166,7 +167,7 @@ Where:
 
 - $p_B^S=\text{Probabilty B wins a set given B served}$
 
-## Data being used 
+## Data
 Data used in paper: 
 
   - Men and Women semifinalists in the 2002 U.S Open tournament 
@@ -226,25 +227,32 @@ kable(TDMen, format = "latex", booktabs = TRUE, caption = "Data for the Mens Sem
 ```
 
 ## 2002 U.S Open: Women
-```{r, echo=FALSE}
-Tourney1_Women = data.frame(`P(Winning a Rally)` = TDWomen[,1],
-                            `Paper P(Winning the Tournement)` = c(.2872, .3599, .0482, .3074))
+```{r, echo=FALSE, message=F, warning=F}
+W02 <- read_csv('2002 US Open tournament- Women.csv') %>%
+  filter(!is.na(Name)) %>%
+  mutate(pRally = NA)
+
+for(i in 1:4) {
+  W02$pRally[i] <- pr(as.numeric(W02[i,2]), as.numeric(W02[i,3]))
+}
+
+pRally <- as.numeric(W02$pRally)
+
+W02$pTC <- as.numeric(pTC(pRally[1], pRally[2], pRally[3], pRally[4], 2)) #c(.2872, .3599, .0482, .3074))
 #`Our P(Winning the Tournement )` =round( pTC(TDWomen[1,1],TDWomen[2,1],TDWomen[3,1],TDWomen[4,1], 2), 4)
- 
-rownames(Tourney1_Women)<- c("S. Williams","L. Davenport",  "A. Mauresmo", "V. Williams")
 
-
-T1<- table(base::sample(rownames(Tourney1_Women), 2000, prob = Tourney1_Women$Paper.P.Winning.the.Tournement., replace = TRUE)) 
+T1<- table(base::sample(W02$Name, 2000, prob = W02$pTC, replace = TRUE)) 
 
 
 Winner1 <- which(T1 == max(T1))
 
 
 ggplot(data.frame(T1)) +
-  geom_col(aes(x=Var1, y=Freq/2000)) +
+  geom_col(aes(x=Var1, y=Freq)) +
   xlab("Players") + 
-  ylab("P(Winning the Tournement") +
-  ggtitle("Which Player Won the Tournement?")
+  ylab("Number of Times Won") +
+  ggtitle("Which Player Won the Tournament?",
+          subtitle = "2002 Women's US Open")
 
 ```
 
@@ -255,59 +263,128 @@ include_graphics("Serena.png")
 ```
 
 ## 2002 U.S Open: Men
-```{r, echo=FALSE, }
-Tourney1_Men = data.frame(`P(Winning a Rally)` = TDMen[,1],
-                            `Paper P(Winning the Tournement)` = c(.6747, .0851, .0945, .1457))
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+mOpen <- read_csv('2002 US Open- Men.csv') %>%
+  filter(!is.na(Name)) %>%
+  mutate(pRally = NA)
+
+for(i in 1:4) {
+  mOpen$pRally[i] <- pr(as.numeric(mOpen[i,2]), as.numeric(mOpen[i,3]))
+}
+
+pRally <- as.numeric(mOpen$pRally)
+
+mOpen$pTC <- as.numeric(pTC(pRally[1], pRally[2], pRally[3], pRally[4], 3))
 #`Our P(Winning the Tournement )` =round( pTC(TDMen[1,1],TDMen[2,1],TDMen[3,1],TDMen[4,1], 2), 4)
- 
-rownames(Tourney1_Men)<- c("P. Sampras","S. Schalken",  "A. Agassi", "L. Hewitt")
+
+T2<- table(base::sample(mOpen$Name, 2000, prob = mOpen$pTC, replace = TRUE)) 
 
 
-T1<- table(base::sample(rownames(Tourney1_Men), 2000, prob = Tourney1_Men$Paper.P.Winning.the.Tournement., replace = TRUE)) 
+Winner2 <- which(T2 == max(T2))
 
 
-Winner1 <- which(T1 == max(T1))
-
-
-ggplot(data.frame(T1)) +
-  geom_col(aes(x=Var1, y=Freq/2000)) +
+ggplot(data.frame(T2)) +
+  geom_col(aes(x=Var1, y=Freq)) +
   xlab("Players") +
-  ylab("P(Win the Tournement)") +
-  ggtitle("Which Player Won the Tournement?")
+  ylab("Number of Times Won") +
+  ggtitle("Which Player Won the Tournament?",
+          subtitle = "2002 Men's US Open")
 
 ```
 
-##2002 U.S Open: Men
+## 2002 U.S Open: Men
 
 ```{r,echo=FALSE, fig.align='center'}
 include_graphics("Pete.png")
 ```
 
 
+## 2002 Wimbledon: Women
+
+```{r, message=F, warning=F}
+wWim02 <- read_csv('2002 Wimbledon -Women.csv') %>%
+  filter(!is.na(Name)) %>%
+  mutate(pRally = NA)
+
+for(i in 1:4) {
+  wWim02$pRally[i] <- pr(as.numeric(wWim02[i,2]), as.numeric(wWim02[i,3]))
+}
+
+pRally <- as.numeric(wWim02$pRally)
+
+wWim02$pTC <- as.numeric(pTC(pRally[1], pRally[2], pRally[3], pRally[4], 2))
+
+T3 <- table(base::sample(wWim02$Name, 2000, prob = wWim02$pTC, replace = TRUE))
+
+ggplot(data.frame(T3)) +
+  geom_col(aes(x=Var1, y=Freq)) +
+  xlab('Players') +
+  ylab('Number of Times Won') +
+  ggtitle('Which Player Won the Tournament?',
+          subtitle = "2002 Women's Wimbledon")
+```
+
+## 2002 Wimbledon: Women
+
+```{r, fig.align='center'}
+include_graphics('Serena2.png')
+```
+
+## 2002 Wimbledon: Men
+
+```{r, message=F, warning=F}
+mWim02 <- read_csv('2002 Wimbledon- Men.csv') %>%
+  filter(!is.na(Name)) %>%
+  mutate(pRally = NA)
+
+for(i in 1:4) {
+  mWim02$pRally[i] <- pr(as.numeric(mWim02[i,2]), as.numeric(mWim02[i,3]))
+}
+
+pRally <- as.numeric(mWim02$pRally)
+
+mWim02$pTC <- as.numeric(pTC(pRally[1], pRally[2], pRally[3], pRally[4], 2))
+
+T4 <- table(base::sample(mWim02$Name, 2000, prob = mWim02$pTC, replace = TRUE))
+
+ggplot(data.frame(T4)) +
+  geom_col(aes(x=Var1, y=Freq)) +
+  xlab('Players') +
+  ylab('Number of Times Won') +
+  ggtitle('Which Player Won the Tournament?',
+          subtitle = "2002 Men's Wimbledon")
+```
+
+## 2002 Wimbledon: Men
+
+```{r, fig.align='center'}
+include_graphics('Hewitt.png')
+```
+
 ## 2019 Wimbledon: Women 
 
 ```{r, warning=FALSE, echo=FALSE, message=F}
 
-WimWomen <- read_csv("2019 Womens Wimbledon.csv")
+wWim19 <- read_csv('2019 Womens Wimbledon.csv') %>%
+  filter(!is.na(Name)) %>%
+  mutate(pRally = NA)
 
-WimWomen$`P(Winning a Rally)` <- WimWomen$`Points Won on Serve`/WimWomen$`Total Points Served`
+for(i in 1:4) {
+  wWim19$pRally[i] <- pr(as.numeric(wWim19[i,2]), as.numeric(wWim19[i,3]))
+}
 
-WimWomen <- as.data.frame(WimWomen)
+pRally <- as.numeric(wWim19$pRally)
 
-WimWomen$`P(Winning Tournement)`<- pTC(WimWomen[1,4][1], WimWomen[2,4][1],WimWomen[3,4][1],WimWomen[3,4][1],2)
+wWim19$pTC <- as.numeric(pTC(pRally[1], pRally[2], pRally[3], pRally[4], 2))
 
+T4 <- table(base::sample(wWim19$Name, 2000, prob = wWim19$pTC, replace = TRUE))
 
-T1 <- table(base::sample(WimWomen$Name, 2000, prob = WimWomen$`P(Winning a Rally)`, replace = TRUE)) 
-
-Winner1 <- which(T1 == max(T1))
-
-
-ggplot(data.frame(T1)) +
-  geom_col(aes(x=Var1, y=Freq/2000)) +
-  xlab("Players") +
-  ylab("P(Win the Tournament)") +
-  ggtitle("Which Player Won the Tournament?")
-
+ggplot(data.frame(T4)) +
+  geom_col(aes(x=Var1, y=Freq)) +
+  xlab('Players') +
+  ylab('Number of Times Won') +
+  ggtitle('Which Player Won the Tournament?',
+          subtitle = "2019 Women's Wimbledon")
 ```
 
 
@@ -322,31 +399,30 @@ include_graphics("Simona.png")
 
 ```{r, warning=FALSE, echo=FALSE, message=F}
 
-WimMen <- read_csv("2019 Men's Wimbledon.csv")
+mWim19 <- read_csv("2019 Men's Wimbledon.csv") %>%
+  filter(!is.na(Name)) %>%
+  mutate(pRally = NA)
 
-WimMen <- as.data.frame(WimMen)
+for(i in 1:4) {
+  mWim19$pRally[i] <- pr(as.numeric(mWim19[i,2]), as.numeric(mWim19[i,3]))
+}
 
-WimMen$`P(Winning a Rally)` <- WimMen$`Points Won on Serve`/ WimMen$`Total Points on Serve`
+pRally <- as.numeric(mWim19$pRally)
 
+mWim19$pTC <- as.numeric(pTC(pRally[1], pRally[2], pRally[3], pRally[4], 2))
 
+T5 <- table(base::sample(mWim19$Name, 2000, prob = mWim19$pTC, replace = TRUE))
 
-WimMen$`P(Winning Tournement)`<- pTC(WimMen[1,4][1], WimMen[2,4][1],WimMen[3,4][1],WimMen[3,4][1],2)
-
-
-T1<- table(base::sample(WimMen$Name, 2000, prob = WimMen$`P(Winning a Rally)`, replace = TRUE)) 
-
-Winner1 <- which(T1 == max(T1))
-
-
-ggplot(data.frame(T1)) +
-  geom_col(aes(x=Var1, y=Freq/2000)) +
-  xlab("Players") +
-   ylab("P(Win the Tournement)")+
-  ggtitle("Which Player Won the Tournement?")
-
+ggplot(data.frame(T5)) +
+  geom_col(aes(x=Var1, y=Freq)) +
+  xlab('Players') +
+  ylab('Number of Times Won') +
+  ggtitle('Which Player Won the Tournament?',
+          subtitle = "2002 Men's Wimbledon")
 ```
 
 ## 2019 Wimbledon: Men 
+
 ```{r,echo=FALSE, fig.align='center'}
 include_graphics("Novak.png")
 ```
