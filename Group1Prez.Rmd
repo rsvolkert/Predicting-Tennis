@@ -18,6 +18,7 @@ header-includes:
   - \usepackage[normalem]{ulem} 
   - \usepackage{makecell} 
   - \usepackage{xcolor}
+  
 
 ---
 
@@ -223,7 +224,7 @@ kable(TDMen, format = "latex", booktabs = TRUE, caption = "Data for the Mens Sem
 
 ```
 
-## Tournament Results: Women
+## 2002 U.S Open: Women
 ```{r, echo=FALSE}
 Tourney1_Women = data.frame(`P(Winning a Rally)` = TDWomen[,1],
                             `Paper P(Winning the Tournement)` = c(.2872, .3599, .0482, .3074))
@@ -246,9 +247,14 @@ ggplot(data.frame(T1)) +
 
 ```
 
+## 2002 U.S Open: Women
 
-## Tournament Results: Men
-```{r, echo=FALSE}
+```{r,echo=FALSE, fig.align='center'}
+include_graphics("Serena.png")
+```
+
+## 2002 U.S Open: Men
+```{r, echo=FALSE, }
 Tourney1_Men = data.frame(`P(Winning a Rally)` = TDMen[,1],
                             `Paper P(Winning the Tournement)` = c(.6747, .0851, .0945, .1457))
 #`Our P(Winning the Tournement )` =round( pTC(TDMen[1,1],TDMen[2,1],TDMen[3,1],TDMen[4,1], 2), 4)
@@ -270,11 +276,16 @@ ggplot(data.frame(T1)) +
 
 ```
 
+##2002 U.S Open: Men
+
+```{r,echo=FALSE, fig.align='center'}
+include_graphics("Pete.png")
+```
 
 
 ## 2019 Wimbledon: Women 
 
-```{r, warning=FALSE, echo=FALSE}
+```{r, warning=FALSE, echo=FALSE, message=FALSE}
 WimWomen <- read_csv("2019 Womens Wimbledon.csv")
 
 WimWomen$`P(Winning a Rally)` <- WimWomen$`Points Won on Serve`/WimWomen$`Total Points Served`
@@ -292,15 +303,22 @@ Winner1 <- which(T1 == max(T1))
 ggplot(data.frame(T1)) +
   geom_col(aes(x=Var1, y=Freq/2000)) +
   xlab("Players") +
-  ylab("P(Win the Tournement)")
+  ylab("P(Win the Tournement)")+
   ggtitle("Which Player Won the Tournement?")
 
 ```
 
 
+## 2019 Wimbledon: Women 
+
+```{r,echo=FALSE, fig.align='center'}
+include_graphics("Simona.png")
+```
+
+
 ## 2019 Wimbledon: Men 
 
-```{r, warning=FALSE, echo=FALSE}
+```{r, warning=FALSE, echo=FALSE, message=FALSE}
 WimMen <- read_csv("2019 Men's Wimbledon.csv")
 
 WimMen <- as.data.frame(WimMen)
@@ -318,8 +336,15 @@ Winner1 <- which(T1 == max(T1))
 
 
 ggplot(data.frame(T1)) +
-  geom_col(aes(x=Var1, y=Freq)) +
+  geom_col(aes(x=Var1, y=Freq/2000)) +
   xlab("Players") +
+   ylab("P(Win the Tournement)")+
   ggtitle("Which Player Won the Tournement?")
 
 ```
+
+## 2019 Wimbledon: Men 
+```{r,echo=FALSE, fig.align='center'}
+include_graphics("Novak.png")
+```
+
