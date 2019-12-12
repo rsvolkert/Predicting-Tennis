@@ -40,8 +40,7 @@ set.seed(400)
 
 - Based on other papers the conclusion was made to treat serves in tennis as independent identically distributed (iid) random variables
 
-- It is noted that points in tennis are not iid for most purposes
-  - This is not a bad assumption as the divergence from iid is small
+- It is noted that points in tennis are not iid for most purposes this is not a bad assumption as the divergence from iid is small
   
 - Both two out of three and three out of five set matches were considered allowing for 13-point tiebreaker in each set if needed
   
