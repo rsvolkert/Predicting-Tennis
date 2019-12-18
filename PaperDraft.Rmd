@@ -3,7 +3,10 @@ title: "Tennis"
 author: "Olivia Beck, Emma Lewis, Ryan Volkert"
 date: "Decemeber 19, 2019"
 output: pdf_document
+header - input: 
+  - \usepackage{float}
 bibliography: bibliography.bib
+
 ---
 
 ```{r setup, include=FALSE}
@@ -110,7 +113,14 @@ $p_A^T(0,0) = 1$, $p_A^T(i,j) = 0$ if i<0 or j<0.
 
 First we will consider data from the 2002 US Open for both men's and women's. We want to reproduce the probability of winning a game. Table 1 compares the empirical probablity of winning a game versus the theoretical probability of winning a game calculated in @Tennis verus the probability of winning a game that we calculated for the 4 semi finalists in this tournament. We can see that the vales that we caluculated and the values calculated in @Tennis are the same. These values do differ slightly from the empiricial probabilities. Table 2 outlines the same comparisons except for the men's 2002 US Open. 
 
-```{r, echo = FALSE}
+
+
+Next, we want to comapare the probability of winning a tournement. @Tennis does not provide their predictions of tournament winners, only their probabilies comparted to what actually happened in the tournement. The paper also only considers the 4 semifinalists when predicting the tournement, so we will as well. 
+
+
+
+
+```{r, echo = FALSE, fig.pos="H"}
 
 TDWomen <- as.data.frame(matrix(0, nrow = 4, ncol = 3))
 
@@ -133,7 +143,7 @@ kable(TDWomen, format = "latex", booktabs = TRUE, caption = "Data for the Womens
 
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.pos="H"}
 
 TDMen<- as.data.frame(matrix(0, nrow = 4, ncol = 3))
 
@@ -159,12 +169,7 @@ kable(TDMen, format = "latex", booktabs = TRUE, caption = "Data for the Mens Sem
 
 
 
-Next, we want to comapare the probability of winning a tournement. @Tennis does not provide their predictions of tournament winners, only their probabilies comparted to what actually happened in the tournement. The paper also only considers the 4 semifinalists when predicting the tournement, so we will as well. 
-
-
-We fist look at 2002 US Open's Womens tournement for the 4 semi finalists. We calculate the probability each semi finalist has of winning the tournament, then we sample one player to win the tournament with the probabilites we calculated. Figure 1 shows the results from 2000 tournements played with these 4 semi finalists. From our simlations we predict that S. Williams wins the tournement, and in fact she did win this tournement. 
-
-```{r, echo=FALSE, message=F, warning=F}
+```{r, echo=FALSE, message=F, warning=F, fig.pos="H"}
 W02 <- read_csv('2002 US Open tournament- Women.csv') %>%
   filter(!is.na(Name)) %>%
   mutate(pRally = NA)
@@ -190,9 +195,13 @@ ggplot(data.frame(T1)) +
           subtitle = "2002 Women's US Open")
 
 ```
+
+We fist look at 2002 US Open's Womens tournement for the 4 semi finalists. We calculate the probability each semi finalist has of winning the tournament, then we sample one player to win the tournament with the probabilites we calculated. Figure 1 shows the results from 2000 tournements played with these 4 semi finalists. From our simlations we predict that S. Williams wins the tournement, and in fact she did win this tournement. 
+
+
 Similarly, we want to consider the 2002 US Open for the men's semifinalists. Using the same method outline above, we can see in Figure 2 that we predict P. Sampras to win the tournement, and in fact he did win this tournament. 
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.pos="H"}
 mOpen <- read_csv('2002 US Open- Men.csv') %>%
   filter(!is.na(Name)) %>%
   mutate(pRally = NA)
@@ -223,7 +232,7 @@ ggplot(data.frame(T2)) +
 
 Next, we consider data from the 2002 Wimbeldon. The probability of winning a rally for the 4 semifinalists for both women's and men's can be found in Table 3. Figure 3 shows the results for the 2002 Women's Wimbledon. We predict that V. Williams wins, but in reality S. Williams had an upset win. Some speculations as to why we predicted incorrectly can be found in the Limitations section. Figure 4 shows the same methods as Figure 3, but for the men's semi finalists. We predict L. Hewitt to win the tournament, and in fact he does. 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.pos="H"}
 
 
 Wimb2002 <- as.data.frame(matrix(0, nrow = 4,  ncol = 4))
@@ -243,7 +252,7 @@ kable(Wimb2002, format = "latex", booktabs = TRUE, caption = "Data for the Semif
           kable_styling(latex_options = "scale_down")
 
 ```
-```{r, message=F, warning=F}
+```{r, message=F, warning=F, fig.pos="H"}
 wWim02 <- read_csv('2002 Wimbledon -Women.csv') %>%
   filter(!is.na(Name)) %>%
   mutate(pRally = NA)
@@ -265,7 +274,7 @@ ggplot(data.frame(T3)) +
   ggtitle('Figure 3',
           subtitle = "2002 Women's Wimbledon")
 ```
-```{r, message=F, warning=F}
+```{r, message=F, warning=F, fig.pos="H"}
 mWim02 <- read_csv('2002 Wimbledon- Men.csv') %>%
   filter(!is.na(Name)) %>%
   mutate(pRally = NA)
@@ -300,7 +309,7 @@ ggplot(data.frame(T4)) +
 ### Extension 
 
 For our extension, we ran the same method on data from the 2019 Wimbledon Tournament for both men's and women's. The data for probability of winning a rally can be found in Table 4. As seen in Figure 5, we predict that B. Strycoa wins the tournament, but S. Halep actually won the 2019 Women's Wimbledon. Similarly, in Figure 6 we predict that Rodger Federer and Rafeal Nadal essentially have an equal probability of winning the tournement, but it was Novak Djokovic who actually won the tournement. Again, the discrepencies between who won the tourment and what we predicted are discussed in the limitations section.  
-```{r, echo =FALSE, warning=FALSE}
+```{r, echo =FALSE, warning=FALSE, fig.pos="H", message=FALSE}
 #Women
 wWim19 <- read_csv('2019 Womens Wimbledon.csv') %>%
   filter(!is.na(Name)) %>%
@@ -343,7 +352,7 @@ kable(Tab, format = "latex", booktabs = TRUE, caption = "Data for the Semifinali
 
 ```
 
-```{r, warning=FALSE, echo=FALSE, message=F}
+```{r, warning=FALSE, echo=FALSE, message=F, fig.pos="H"}
 
 
 T4 <- table(base::sample(wWim19$Name, 2000, prob = wWim19$pTC, replace = TRUE))
@@ -356,7 +365,7 @@ ggplot(data.frame(T4)) +
           subtitle = "2019 Women's Wimbledon")
 ```
 
-```{r, warning=FALSE, echo=FALSE, message=F}
+```{r, warning=FALSE, echo=FALSE, message=F, fig.pos="H"}
 
 
 T5 <- table(base::sample(mWim19$Name, 2000, prob = mWim19$pTC, replace = TRUE))
