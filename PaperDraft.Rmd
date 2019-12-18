@@ -9,6 +9,12 @@ bibliography: bibliography.bib
 
 ---
 
+\newpage
+\tableofcontents
+\listoffigures
+\listoftables
+\newpage
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 source("funs.R")
@@ -18,12 +24,12 @@ library(tidyverse)
 set.seed(400)
 ```
 
-### Introduction
+# Introduction
 
 For our report, we replicated the methods outlined in @Tennis for predicting the outcome of a tennis tourement. 
 
 
-### Motivation 
+# Motivation 
 
 
 The probability of winning a game, a set, and a match in tennis are calculated based on the each players probability of winning a point on a serve. This paper and the reference paper,@Tennis both make the assumption that each serve is an independently and identically distributed (iid) random variable. This assumption has been made in other reports relating to the probability of winning a game in other racket sports and even though serves in tennis are not iid random variables in reality. For most purposes this is not an outragous assumption as the divergence from iid is small. 
@@ -35,7 +41,7 @@ In a set the players alternate serving until a player wins at least six games an
 To win a match a player in woman's format a player must win two out of three sets and in men's format a player must win three out of five sets. 
 
 
-### Methods
+# Methods
 
 Data for the 2002 Wimbledon for men's and women's as well as 2002 US Open for men's and women's was provided in @Tennis. Data for 2019 Wimbledon for men's and women's was found at @2019data. 
 
@@ -109,7 +115,7 @@ $p_A^T(0,0) = 1$, $p_A^T(i,j) = 0$ if i<0 or j<0.
 
  
 
-### Reproducability 
+# Reproducability 
 
 First we will consider data from the 2002 US Open for both men's and women's. We want to reproduce the probability of winning a game. Table 1 compares the empirical probablity of winning a game versus the theoretical probability of winning a game calculated in @Tennis verus the probability of winning a game that we calculated for the 4 semi finalists in this tournament. We can see that the vales that we caluculated and the values calculated in @Tennis are the same. These values do differ slightly from the empiricial probabilities. Table 2 outlines the same comparisons except for the men's 2002 US Open. 
 
@@ -169,7 +175,7 @@ kable(TDMen, format = "latex", booktabs = TRUE, caption = "Data for the Mens Sem
 
 
 
-```{r, echo=FALSE, message=F, warning=F, fig.pos="H"}
+```{r, echo=FALSE, message=F, warning=F, fig.pos="H", fig.cap = "2002 Women's US Open"}
 W02 <- read_csv('2002 US Open tournament- Women.csv') %>%
   filter(!is.na(Name)) %>%
   mutate(pRally = NA)
@@ -191,8 +197,7 @@ ggplot(data.frame(T1)) +
   geom_col(aes(x=Var1, y=Freq/2000)) +
   xlab("Players") + 
   ylab("Number of Times Won") +
-  ggtitle("Figure 1",
-          subtitle = "2002 Women's US Open")
+  ggtitle("2002 Women's US Open")
 
 ```
 
@@ -201,7 +206,7 @@ We fist look at 2002 US Open's Womens tournement for the 4 semi finalists. We ca
 
 Similarly, we want to consider the 2002 US Open for the men's semifinalists. Using the same method outline above, we can see in Figure 2 that we predict P. Sampras to win the tournement, and in fact he did win this tournament. 
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.pos="H"}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.pos="H", fig.cap = "2002 Men's US Open"}
 mOpen <- read_csv('2002 US Open- Men.csv') %>%
   filter(!is.na(Name)) %>%
   mutate(pRally = NA)
@@ -223,8 +228,7 @@ ggplot(data.frame(T2)) +
   geom_col(aes(x=Var1, y=Freq/2000)) +
   xlab("Players") +
   ylab("Proportion of Times Won") +
-  ggtitle("Figure 2",
-          subtitle = "2002 Men's US Open")
+  ggtitle("2002 Men's US Open")
 
 ```
 
@@ -249,10 +253,10 @@ Wimb2002[ ,4]<- c(0.77, 0.61, 0.67, 0.67)
 
 kable(Wimb2002, format = "latex", booktabs = TRUE, caption = "Data for the Semifinalists in the 2002 Wimbledon Tournament
 ")%>%
-          kable_styling(latex_options = "scale_down")
+          kable_styling(full_width = T)
 
 ```
-```{r, message=F, warning=F, fig.pos="H"}
+```{r, message=F, warning=F, fig.pos="H", fig.cap = "2002 Women's Wimbledon"}
 wWim02 <- read_csv('2002 Wimbledon -Women.csv') %>%
   filter(!is.na(Name)) %>%
   mutate(pRally = NA)
@@ -271,10 +275,9 @@ ggplot(data.frame(T3)) +
   geom_col(aes(x=Var1, y=Freq/2000)) +
   xlab('Players') +
   ylab('Proportion of Times Won') +
-  ggtitle('Figure 3',
-          subtitle = "2002 Women's Wimbledon")
+  ggtitle("2002 Women's Wimbledon")
 ```
-```{r, message=F, warning=F, fig.pos="H"}
+```{r, message=F, warning=F, fig.pos="H", fig.cap = "2002 Men's Wimbledon"}
 mWim02 <- read_csv('2002 Wimbledon- Men.csv') %>%
   filter(!is.na(Name)) %>%
   mutate(pRally = NA)
@@ -293,8 +296,7 @@ ggplot(data.frame(T4)) +
   geom_col(aes(x=Var1, y=Freq/2000)) +
   xlab('Players') +
   ylab('Proportion of Times Won') +
-  ggtitle('Figure 4 ',
-          subtitle = "2002 Men's Wimbledon")
+  ggtitle("2002 Men's Wimbledon")
 ```
 
 
@@ -306,7 +308,7 @@ ggplot(data.frame(T4)) +
 
 
 
-### Extension 
+# Extension 
 
 For our extension, we ran the same method on data from the 2019 Wimbledon Tournament for both men's and women's. The data for probability of winning a rally can be found in Table 4. As seen in Figure 5, we predict that B. Strycoa wins the tournament, but S. Halep actually won the 2019 Women's Wimbledon. Similarly, in Figure 6 we predict that Rodger Federer and Rafeal Nadal essentially have an equal probability of winning the tournement, but it was Novak Djokovic who actually won the tournement. Again, the discrepencies between who won the tourment and what we predicted are discussed in the limitations section.  
 ```{r, echo =FALSE, warning=FALSE, fig.pos="H", message=FALSE}
@@ -347,12 +349,12 @@ colnames(Tab2) <- c("Men", "P(Winning a Rally)")
 Tab<-cbind(Tab1, Tab2)
 kable(Tab, format = "latex", booktabs = TRUE, caption = "Data for the Semifinalists in the 2019 Wimbledon Tournament
 ")%>%
-          kable_styling(latex_options = "scale_down")
+          kable_styling(full_width = T)
 
 
 ```
 
-```{r, warning=FALSE, echo=FALSE, message=F, fig.pos="H"}
+```{r, warning=FALSE, echo=FALSE, message=F, fig.pos="H", fig.cap = "2019 Women's Wimbledon"}
 
 
 T4 <- table(base::sample(wWim19$Name, 2000, prob = wWim19$pTC, replace = TRUE))
@@ -361,11 +363,10 @@ ggplot(data.frame(T4)) +
   geom_col(aes(x=Var1, y=Freq/2000)) +
   xlab('Players') +
   ylab('Proportion of Times Won') +
-  ggtitle('Figure 5',
-          subtitle = "2019 Women's Wimbledon")
+  ggtitle("2019 Women's Wimbledon")
 ```
 
-```{r, warning=FALSE, echo=FALSE, message=F, fig.pos="H"}
+```{r, warning=FALSE, echo=FALSE, message=F, fig.pos="H", fig.cap = "2019 Men's Wimbledon"}
 
 
 T5 <- table(base::sample(mWim19$Name, 2000, prob = mWim19$pTC, replace = TRUE))
@@ -374,17 +375,16 @@ ggplot(data.frame(T5)) +
   geom_col(aes(x=Var1, y=Freq/2000)) +
   xlab('Players') +
   ylab('Proportion of Times Won') +
-  ggtitle('Figure 6',
-          subtitle = "2002 Men's Wimbledon")
+  ggtitle("2019 Men's Wimbledon")
 ```
 
 
 
-### Conclusions 
+# Conclusions 
 
 
 
-### Limitations 
+# Limitations 
 
 When a tennis tournament is played, the empirical probability of winning a point on serve changes every time a rally is completed. This report does not take that into account. For this report we used previous tournament data to calculate the probability each player had of winning the tournament. Our data did not update as the tournament progressed. There is one major draw back to this approach. Our method only considers how a player was performing before the tournament and does not consider how they are performing during the tournament. This is one reason we see discrepancies between our predicted tournament winner and the actual winner of the tournament. For example, in the 2002 Women’s Wimbledon, Venus Williams was predicted to win, as she had the highest probability of winning a rally, but Serena Williams actually won the tournament. This is in part due to the discrepancies between how the players performed before the tournament and how they preformed during the tournament. Serena Williams performed much better during the tournament than she did leading up to it. One way to improve our predictions is to update our probabilities each time a rally is conducted. 
 
@@ -392,4 +392,4 @@ When a player plays well during a tournament, it gives them momentum which is im
 
  
 
-### Bibliography 
+# References
