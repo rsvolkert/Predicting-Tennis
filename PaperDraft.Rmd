@@ -78,8 +78,8 @@ $$p_A^M = (p_A^S)^3 + 3(p_A^S)^3p_B^S + 6(p_A^S)^3(p_B^S)^2$$
 
 - P(Winning the Tournament): Let $\boldsymbol{P}_{ij}$ be the probability that player i wins the match against player j. Then for the 4 semifinalists players i, j, k, and l:  
 
-$$p^T_i =  \boldsymbol{P}_{ij}(\boldsymbol{P}_{ik}\boldsymbol{P}_{kl} + \boldsymbol{P}_{il}\boldsymbol{P}_{lk} ) $$
-Note that $\sum_{\forall i} p^T_i =1$. We will sample 1 player from the 4 semifinalists with the probabilities calculated above to determine the tournament winner. 
+$$p^{TC}_i =  \boldsymbol{P}_{ij}(\boldsymbol{P}_{ik}\boldsymbol{P}_{kl} + \boldsymbol{P}_{il}\boldsymbol{P}_{lk} ) $$
+Note that $\sum_{\forall i} p^{TC}_i =1$. We will sample one  player from the 4 semifinalists with the probabilities calculated above to determine the tournament winner. 
 
 
 Where, $p_A^S(i,j)$ is defined recursively as: 
