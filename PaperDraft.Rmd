@@ -28,13 +28,13 @@ set.seed(400)
 
 # Introduction
 
-For our report, we replicated the methods outlined in @Tennis for predicting the outcome of a tennis tourement. 
+For our report, we replicated the methods outlined in @Tennis for predicting the outcome of a tennis tournament. We used the empirical probability of each player winning a rally given they served to calculate theoretical probabilities that the player wins a game, a set, a match, and a tournament given the other players in the tournament. 
 
 
 # Motivation 
 
 
-The probability of winning a game, a set, and a match in tennis are calculated based on the each players probability of winning a point on a serve. This paper and the reference paper,@Tennis both make the assumption that each serve is an independently and identically distributed (iid) random variable. This assumption has been made in other reports relating to the probability of winning a game in other racket sports and even though serves in tennis are not iid random variables in reality. For most purposes this is not an outragous assumption as the divergence from iid is small. 
+The probability of winning a game, a set, and a match in tennis are calculated based on the each players probability of winning a point on a serve. This paper and the reference paper,@Tennis both make the assumption that each serve is an independently and identically distributed (iid) random variable. This assumption has been made in other reports relating to the probability of winning a game in other racket sports and even though serves in tennis are not iid random variables in reality. For most purposes this is not an outrageous assumption as the divergence from iid is small. 
 
 A game in tennis is played with one player serving and is won by the first player to score four or more points and to be at least two points ahead of the other player. Player A can win a game against player B by a score of (4,0), (4,1) or (4,2), or else the score becomes (3,3) which is called "deuce". 
 
@@ -60,7 +60,7 @@ The probability of winning a game, set, match, and tournament is derived in @Ten
 
 $$p_A^G = (p_A^R)^4[1+4q_A^R+10(q_A^R)^2] +20(p_A^Rq_A^R)^3(p_A^R)^2[1-2p_A^Rq_A^R]^{-1}$$
 
-- P(A Winnning a Set | A Served)
+- P(A Winning a Set | A Served)
 
 $$p_A^S =\sum_{j=0}^4p_A^S(6,j) + p_A^S(7,5) + p_A^S(6,6)p_A^T$$
 
@@ -76,9 +76,10 @@ $$p_A^M = (p_A^S)^2 + 2(p_A^S)^2p_B^S$$
 
 $$p_A^M = (p_A^S)^3 + 3(p_A^S)^3p_B^S + 6(p_A^S)^3(p_B^S)^2$$
 
-<!-- Need to add P(winning the Tournement) -->
+- P(Winning the Tournament): Let $\boldsymbol{P}_{ij}$ be the probability that player i wins the match against player j. Then for the 4 semifinalists players i, j, k, and l:  
 
-
+$$p^T_i =  \boldsymbol{P}_{ij}(\boldsymbol{P}_{ik}\boldsymbol{P}_{kl} + \boldsymbol{P}_{il}\boldsymbol{P}_{lk} ) $$
+Note that $\sum_{\forall i} p^T_i =1$. We will sample 1 player from the 4 semifinalists with the probabilities calculated above to determine the tournament winner. 
 
 
 Where, $p_A^S(i,j)$ is defined recursively as: 
@@ -119,11 +120,11 @@ $p_A^T(0,0) = 1$, $p_A^T(i,j) = 0$ if i<0 or j<0.
 
 # Reproducability 
 
-First we will consider data from the 2002 US Open for both men's and women's. We want to reproduce the probability of winning a game. Table 1 compares the empirical probablity of winning a game versus the theoretical probability of winning a game calculated in @Tennis verus the probability of winning a game that we calculated for the 4 semi finalists in this tournament. We can see that the vales that we caluculated and the values calculated in @Tennis are the same. These values do differ slightly from the empiricial probabilities. Table 2 outlines the same comparisons except for the men's 2002 US Open. 
+First we will consider data from the 2002 US Open for both men's and women's. We want to reproduce the probability of winning a game. Table 1 compares the empirical probability of winning a game versus the theoretical probability of winning a game calculated in @Tennis versus the probability of winning a game that we calculated for the 4 semi finalists in this tournament. We can see that the vales that we calculated and the values calculated in @Tennis are the same. These values do differ slightly from the empirical probabilities. Table 2 outlines the same comparisons except for the men's 2002 US Open. 
 
 
 
-Next, we want to comapare the probability of winning a tournement. @Tennis does not provide their predictions of tournament winners, only their probabilies comparted to what actually happened in the tournement. The paper also only considers the 4 semifinalists when predicting the tournement, so we will as well. 
+Next, we want to compare the probability of winning a tournament. @Tennis does not provide their predictions of tournament winners, only their probabilities compared to what actually happened in the tournament. The paper also only considers the 4 semifinalists when predicting the tournament, so we will as well. 
 
 
 
@@ -203,10 +204,10 @@ ggplot(data.frame(T1)) +
 
 ```
 
-We fist look at 2002 US Open's Womens tournement for the 4 semi finalists. We calculate the probability each semi finalist has of winning the tournament, then we sample one player to win the tournament with the probabilites we calculated. Figure 1 shows the results from 2000 tournements played with these 4 semi finalists. From our simlations we predict that S. Williams wins the tournement, and in fact she did win this tournement. 
+We fist look at 2002 US Open's Women's tournament for the 4 semi finalists. We calculate the probability each semi finalist has of winning the tournament, then we sample one player to win the tournament with the probabilities we calculated. Figure 1 shows the results from 2000 tournaments played with these 4 semi finalists. From our simulations we predict that S. Williams wins the tournament, and in fact she did win this tournament. 
 
 
-Similarly, we want to consider the 2002 US Open for the men's semifinalists. Using the same method outline above, we can see in Figure 2 that we predict P. Sampras to win the tournement, and in fact he did win this tournament. 
+Similarly, we want to consider the 2002 US Open for the men's semifinalists. Using the same method outline above, we can see in Figure 2 that we predict P. Sampras to win the tournament, and in fact he did win this tournament. 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.pos="H", fig.cap = "2002 Men's US Open"}
 mOpen <- read_csv('2002 US Open- Men.csv') %>%
@@ -236,7 +237,7 @@ ggplot(data.frame(T2)) +
 
 
 
-Next, we consider data from the 2002 Wimbeldon. The probability of winning a rally for the 4 semifinalists for both women's and men's can be found in Table 3. Figure 3 shows the results for the 2002 Women's Wimbledon. We predict that V. Williams wins, but in reality S. Williams had an upset win. Some speculations as to why we predicted incorrectly can be found in the Limitations section. Figure 4 shows the same methods as Figure 3, but for the men's semi finalists. We predict L. Hewitt to win the tournament, and in fact he does. 
+Next, we consider data from the 2002 Wimbledon. The probability of winning a rally for the 4 semifinalists for both women's and men's can be found in Table 3. Figure 3 shows the results for the 2002 Women's Wimbledon. We predict that V. Williams wins, but in reality S. Williams had an upset win. Some speculations as to why we predicted incorrectly can be found in the Limitations section. Figure 4 shows the same methods as Figure 3, but for the men's semi finalists. We predict L. Hewitt to win the tournament, and in fact he does. 
 
 ```{r, echo = FALSE, fig.pos="H"}
 
@@ -312,7 +313,7 @@ ggplot(data.frame(T4)) +
 
 # Extension 
 
-For our extension, we ran the same method on data from the 2019 Wimbledon Tournament for both men's and women's. The data for probability of winning a rally can be found in Table 4. As seen in Figure 5, we predict that B. Strycoa wins the tournament, but S. Halep actually won the 2019 Women's Wimbledon. Similarly, in Figure 6 we predict that Rodger Federer and Rafeal Nadal essentially have an equal probability of winning the tournement, but it was Novak Djokovic who actually won the tournement. Again, the discrepencies between who won the tourment and what we predicted are discussed in the limitations section.  
+For our extension, we ran the same method on data from the 2019 Wimbledon Tournament for both men's and women's. The data for probability of winning a rally can be found in Table 4. As seen in Figure 5, we predict that B. Strycoa wins the tournament, but S. Halep actually won the 2019 Women's Wimbledon. Similarly, in Figure 6 we predict that Rodger Federer and Rafeal Nadal essentially have an equal probability of winning the tournament, but it was Novak Djokovic who actually won the tournament. Again, the discrepancies between who won the tournament and what we predicted are discussed in the limitations section.  
 ```{r, echo =FALSE, warning=FALSE, fig.pos="H", message=FALSE}
 #Women
 wWim19 <- read_csv('2019 Womens Wimbledon.csv') %>%
@@ -384,6 +385,7 @@ ggplot(data.frame(T5)) +
 
 # Conclusions 
 
+Overall, we were able to predict the winner of a tennis tournament from the 4 semi finalists with relative accuracy using monte carlo methods. We used the empirical probabilities of winning a rally on serve going into a tournament to calculate the probability of the 4 semi finalists winning the tournament. The discrepancies between our predictions and the actual winners of the tournament can be contributed to the fact that we assumed all rallies are iid, when in reality, this is not the case. This will be addressed further in the limitations section.  
 
 
 # Limitations 
