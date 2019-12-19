@@ -50,7 +50,7 @@ set.seed(400)
 
 - Point: Smallest unit of measurement (Love-15-30-40-game)
 
-- Game: A game is one when a player reaches 4 points with at least a 2 point advantage 
+- Game: A game is won when a player reaches 4 points with at least a 2 point advantage 
 
 - Set: A set is won by the player who wins 6 games first
 
